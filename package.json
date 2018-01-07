@@ -1,0 +1,24 @@
+{
+  "name": "simpleshare.io",
+  "version": "0.0.1",
+  "description": "Support 'share' links for static sites without invasive tracking",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.15.4"
+  },
+  "engines": {
+    "node": "8.1.4"
+  },
+  "repository": {
+    "url": "https://www.github.com/fileformat/jz-simple-share"
+  },
+  "keywords": [
+    "sharing",
+    "social",
+    "redirect",
+    "json.zone"
+  ]
+}

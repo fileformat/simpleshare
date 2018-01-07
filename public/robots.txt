@@ -1,0 +1,8 @@
+#
+# robots.txt for simpleshare.io
+#
+# Do not index/follow the 'go' URLs
+#
+
+User-Agent: *
+Disallow: /go

@@ -1,0 +1,251 @@
+// server.js
+// where your node app starts
+
+// init project
+var express = require('express');
+var fs = require('fs');
+var os = require('os');
+
+var app = express();
+
+
+app.use(express.static('public'));
+
+function getStatus() {
+	var retVal = {}
+
+	retVal["success"] = true;
+	retVal["message"] = "OK";
+	retVal["timestamp"] = new Date().toISOString();
+	retVal["__dirname"] = __dirname;
+	retVal["__filename"] = __filename;
+	retVal["os.hostname"] = os.hostname();
+	retVal["os.type"] = os.type();
+	retVal["os.platform"] = os.platform();
+	retVal["os.arch"] = os.arch();
+	retVal["os.release"] = os.release();
+	retVal["os.uptime"] = os.uptime();
+	retVal["os.loadavg"] = os.loadavg();
+	retVal["os.totalmem"] = os.totalmem();
+	retVal["os.freemem"] = os.freemem();
+	retVal["os.cpus.length"] = os.cpus().length;
+	// too much junk: retVal["os.networkInterfaces"] = os.networkInterfaces();
+	
+	retVal["process.arch"] = process.arch;
+	retVal["process.cwd"] = process.cwd();
+	retVal["process.execPath"] = process.execPath;
+	retVal["process.memoryUsage"] = process.memoryUsage();
+	retVal["process.platform"] = process.platform;
+	retVal["process.release"] = process.release;
+  retVal["process.title"] = process.title;
+	retVal["process.uptime"] = process.uptime;
+	retVal["process.version"] = process.version;
+	retVal["process.versions"] = process.versions;
+	retVal["process.installPrefix"] = process.installPrefix;
+	
+	return retVal;
+}
+
+app.get('/status.json', function(req, res) {
+  res.writeHead(200, {
+        "Content-Type": "text/plain",
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, GET',
+        'Access-Control-Max-Age': '604800',
+      });
+
+  sendJson(req, res, getStatus());
+  return;
+});
+
+function getVariables(req, res) {
+  var result = {};
+  if ('url' in req.query == false) {
+    result["success"] = false;
+    result["code"] = 400;
+    result["message"] = "Parameter 'url' is required";
+    sendJson(req, res, result);
+    return null;
+  }
+  
+  var text = req.query["text"];
+	if (text == null) {
+    text = req.query["url"];      // LATER: split off just filename?
+  }
+  
+  var summary = req.query["summary"];
+  if (summary == null) {
+    summary = text;
+  }
+  
+  var result = {};
+  result["URL"] = encodeURIComponent(req.query["url"]);
+  result["TEXT"] = encodeURIComponent(text);
+  result["SUMMARY"] = encodeURIComponent(summary);
+
+  return result;
+}
+
+function getSite(req, res) {
+  var result = {};
+  if ('site' in req.query == false) {
+    result["success"] = false;
+    result["code"] = 400;
+    result["message"] = "Parameter 'site' is required";
+    sendJson(req, res, result);
+    return null;
+  }
+  
+  var site = req.query["site"];
+	if (share_urls[site] == null) {
+    result["success"] = false;
+    result["code"] = 404;
+    result["message"] = "Site '" + site + "' is not supported yet";
+    sendJson(req, res, result);
+    return null;
+  }
+
+  return site;
+}
+
+function make_template(strings, ...keys) {
+  return (function(...values) {
+    var dict = values[values.length - 1] || {};
+    var result = [strings[0]];
+    keys.forEach(function(key, i) {
+      var value = Number.isInteger(key) ? values[key] : dict[key];
+      result.push(value, strings[i + 1]);
+    });
+    return result.join('');
+  });
+}
+
+
+function sendJson(req, res, jsonObj) {
+	if ('callback' in req.query)
+	{
+		res.write(req.query["callback"]);
+		res.write("(");
+		res.write(JSON.stringify(jsonObj));
+		res.write(");");
+	}
+	else
+	{
+		res.write(JSON.stringify(jsonObj));
+	}
+  res.end();
+}
+
+
+app.get('/sitelist.json', function(req, res) {
+  var result = {};
+  
+  var sites = []; 
+  
+  var keys = Object.keys(share_urls)
+  for (var loop = 0; loop < keys.length; loop++) {
+    var site = share_urls[keys[loop]];
+    var site_result = { name: site.name, id: keys[loop] };
+    if (site.logo) { 
+     site_result.logolink = "https://www.vectorlogo.zone/logos/" + site.logo + "/index.html";
+     site_result.logo = "https://www.vectorlogo.zone/logos/" + site.logo + "/" + site.logo + "-tile.svg";
+    }
+    sites.push(site_result);
+  }
+  
+  result["sites"] = sites;
+  result["success"] = true;
+  result["code"] = 0;
+  result["message"] = result["sites"].length + " sites available";
+  sendJson(req, res, result);
+  return;
+});
+
+app.get('/siteinfo.json', function(req, res) {
+  var site = getSite(req, res);
+  if (site == null) {
+    return;
+  }
+  
+  var result = {};
+  
+  result["success"] = true;
+  result["message"] = "Information for " + share_urls[site].name;
+  result["code"] = 0;
+  result["site"] = site;
+  result["info"] = { "name": share_urls[site].name, "url": share_urls[site].url_template };
+  
+  if (share_urls[site].logo) {
+    result.info.logo = "https://www.vectorlogo.zone/logos/" + share_urls[site].logo + "/" + share_urls[site].logo + "-tile.svg";
+  }
+  sendJson(req, res, result);
+  return;
+});
+
+app.get('/siteurl.json', function(req, res) {
+  var site = getSite(req, res);
+  if (site == null) {
+    return;
+  }
+  
+  var vars = getVariables(req, res);
+  if (vars == null) {
+    return;
+  }
+  
+  var result = {};
+  
+  result["success"] = true;
+  result["message"] = "Link to '" + req.query["url"] + "' for " + share_urls[site].name;
+  result["code"] = 0;
+  result["site"] = site;
+  result["url"] = share_urls[site].url_template( vars );
+  
+  sendJson(req, res, result);
+  return;
+});
+
+
+app.get('/go', function(req, res) {
+  var site = getSite(req, res);
+  if (site == null) {
+    return;
+  }
+  
+  var vars = getVariables(req, res);
+  if (vars == null) {
+    return;
+  }
+  
+  var loc = share_urls[site].url_template( vars );
+  
+  res.redirect(loc);
+  
+  if ("ga" in req.query) {
+    
+  }
+  
+  return;
+});
+
+var listener = app.listen(process.env.PORT, function () {
+  console.log('Listening on port ' + listener.address().port);
+});
+
+// brutal HACK to avoid having to do ${'TEXT'} in the templates
+var TEXT = 'TEXT';
+var URL = 'URL';
+var SUMMARY = 'SUMMARY';
+
+var share_urls = {
+  'facebook': { name: 'Facebook', logo: 'facebook', url_template: make_template`https://facebook.com/sharer/sharer.php?u=${URL}`},
+  'twitter': { name: 'Twitter', logo: 'twitter', url_template: make_template`https://twitter.com/intent/tweet/?text=${TEXT}&url=${URL}`},
+  'googleplus': { name: 'Google+', logo: 'google_plus', url_template: make_template`https://plus.google.com/share?url=${URL}`},
+  'tumblr': { name: 'Tumblr', logo: 'tumblr', url_template: make_template`https://www.tumblr.com/widgets/share/tool?posttype=link&title=${TEXT}&caption=${TEXT}&content=${URL}&canonicalUrl=${URL}&shareSource=tumblr_share_button`},
+  'pinterest': { name: 'Pinterest', logo: 'pinterest', url_template: make_template`https://pinterest.com/pin/create/button/?url=${URL}&media=${URL}&summary=${TEXT}`},
+  'linkedin': { name: 'LinkedIn', logo: 'linkedin', url_template: make_template`https://www.linkedin.com/shareArticle?mini=true&url=${URL}&title=${TEXT}&summary=${TEXT}&source=${URL}`},
+  'reddit': { name: 'Reddit', logo: 'reddit', url_template: make_template`https://reddit.com/submit/?url=${URL}`},
+  'xing': { name: 'XING', logo: 'xing', url_template: make_template`https://www.xing.com/app/user?op=share;url=${URL};title=${TEXT}`},
+  'whatsapp': { name: 'WhatsApp', logo: 'whatsapp', url_template: make_template`whatsapp://send?text=${TEXT}%20${URL}`}
+};
+
