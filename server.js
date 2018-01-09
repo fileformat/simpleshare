@@ -5,6 +5,7 @@
 var express = require('express');
 var fs = require('fs');
 var os = require('os');
+var request = require('request');
 
 var app = express();
 
@@ -12,7 +13,7 @@ var app = express();
 app.use(express.static('public'));
 
 function getStatus() {
-	var retVal = {}
+	var retVal = {};
 
 	retVal["success"] = true;
 	retVal["message"] = "OK";
@@ -51,39 +52,37 @@ app.get('/status.json', function(req, res) {
         "Content-Type": "text/plain",
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, GET',
-        'Access-Control-Max-Age': '604800',
+        'Access-Control-Max-Age': '604800'
       });
 
   sendJson(req, res, getStatus());
-  return;
 });
 
 function getVariables(req, res) {
-  var result = {};
-  if ('url' in req.query == false) {
-    result["success"] = false;
-    result["code"] = 400;
-    result["message"] = "Parameter 'url' is required";
-    sendJson(req, res, result);
-    return null;
-  }
+    var result = {};
+    if ('url' in req.query == false) {
+        result["success"] = false;
+        result["code"] = 400;
+        result["message"] = "Parameter 'url' is required";
+        sendJson(req, res, result);
+        return null;
+    }
   
-  var text = req.query["text"];
+    var text = req.query["text"];
 	if (text == null) {
-    text = req.query["url"];      // LATER: split off just filename?
-  }
+        text = req.query["url"];      // LATER: split off just filename?
+    }
   
-  var summary = req.query["summary"];
-  if (summary == null) {
-    summary = text;
-  }
+    var summary = req.query["summary"];
+    if (summary == null) {
+        summary = text;
+    }
   
-  var result = {};
-  result["URL"] = encodeURIComponent(req.query["url"]);
-  result["TEXT"] = encodeURIComponent(text);
-  result["SUMMARY"] = encodeURIComponent(summary);
+    result["URL"] = encodeURIComponent(req.query["url"]);
+    result["TEXT"] = encodeURIComponent(text);
+    result["SUMMARY"] = encodeURIComponent(summary);
 
-  return result;
+    return result;
 }
 
 function getSite(req, res) {
@@ -136,13 +135,48 @@ function sendJson(req, res, jsonObj) {
   res.end();
 }
 
+function trackEvent(req, ga_id, event) {
+    if (!ga_id) {
+        return;
+    }
+    var fields = {};
+    fields.v = '1';
+    fields.tid = ga_id;
+    fields.cid = '';    // anonymous client id
+    fields.t = 'event';
+    fields.ec = event.eventCategory;
+    fields.ea = event.eventAction;
+    fields.el = event.eventLabel;
+    fields.ev = event.eventValue;
+    fields.ua = req.get('user-agent') || '(not set)';
+    fields.uip = req.ip || null;
+
+    var formData = {};
+    formData.v = '1';
+    formData.tid = ga_id;
+    formData.cid = '';    // anonymous client id
+    formData.t = 'event';
+    if (event.eventCategory) { formData.ec = event.eventCategory; }
+    if (event.eventAction) { formData.ea = event.eventAction; }
+    if (event.eventLabel) { formData.el = event.eventLabel; }
+    if (event.eventValue) { formData.ev = event.eventValue; }
+    formData.ua = req.get('user-agent') || '(not set)';
+    formData.uip = req.ip || '0.0.0.0';
+
+    request.post({
+        url: "https://www.google-analytics.com/collect",
+        formData: formData
+    }, function (error, response, body){
+        console.log("INFO: ga tracking returned " + response.statusCode);
+    });
+}
 
 app.get('/sitelist.json', function(req, res) {
   var result = {};
   
   var sites = []; 
   
-  var keys = Object.keys(share_urls)
+  var keys = Object.keys(share_urls);
   for (var loop = 0; loop < keys.length; loop++) {
     var site = share_urls[keys[loop]];
     var site_result = { name: site.name, id: keys[loop] };
@@ -158,7 +192,6 @@ app.get('/sitelist.json', function(req, res) {
   result["code"] = 0;
   result["message"] = result["sites"].length + " sites available";
   sendJson(req, res, result);
-  return;
 });
 
 app.get('/siteinfo.json', function(req, res) {
@@ -179,7 +212,6 @@ app.get('/siteinfo.json', function(req, res) {
     result.info.logo = "https://www.vectorlogo.zone/logos/" + share_urls[site].logo + "/" + share_urls[site].logo + "-tile.svg";
   }
   sendJson(req, res, result);
-  return;
 });
 
 app.get('/siteurl.json', function(req, res) {
@@ -202,30 +234,30 @@ app.get('/siteurl.json', function(req, res) {
   result["url"] = share_urls[site].url_template( vars );
   
   sendJson(req, res, result);
-  return;
 });
 
 
 app.get('/go', function(req, res) {
-  var site = getSite(req, res);
-  if (site == null) {
-    return;
-  }
+    var site = getSite(req, res);
+    if (site == null) {
+        return;
+    }
+
+    var vars = getVariables(req, res);
+    if (vars == null) {
+        return;
+    }
+
+
+    var loc = share_urls[site].url_template( vars );
   
-  var vars = getVariables(req, res);
-  if (vars == null) {
-    return;
-  }
-  
-  var loc = share_urls[site].url_template( vars );
-  
-  res.redirect(loc);
-  
-  if ("ga" in req.query) {
-    
-  }
-  
-  return;
+    res.redirect(loc);
+
+    //webmaster's tracking
+    trackEvent(req, req.query["ga"], { eventCategory: 'SHARE', eventAction: req.query["site"], eventValue: req.query["url"]});
+
+    //simpleshare tracking
+    trackEvent(req, process.env.GA_ID, { eventCategory: 'SHARE', eventAction: req.query["site"], eventValue: req.query["url"]});
 });
 
 var listener = app.listen(process.env.PORT, function () {

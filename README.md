@@ -7,13 +7,10 @@ There are more details on the [FAQ](https://simpleshare.io/) and you can see the
 
 To Do
 -----
- - [ ] github repo
- - [ ] LICENSE.txt
- - [ ] GA server-side tracking support
- 
  - [ ] redirect www to @
  - [ ] G Webmaster
  - [ ] Bing Webmaster
+ - [ ] host tiles
  - [ ] custom logo?
  - [ ] robot filter (captcha?)
  - [ ] 'pretty' option for json
