@@ -1,183 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>SimpleShare.IO - simple script-less social sharing</title>
-    <meta name="google-site-verification" content="_h1MxgiRHa93duDgu7VbDBgSXlXqPshOhp6uS82fQdo" />
-    <meta name="msvalidate.01" content="E90DBA4A9D3D37F1056E64E5604A7A0D" />
-    <meta name="yandex-verification" content="19286758bf144d3d" />
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <meta charset="utf-8">
+    <title>SimpleShare.IO - simple script-less social sharing</title>
+    <meta name="google-site-verification" content="_h1MxgiRHa93duDgu7VbDBgSXlXqPshOhp6uS82fQdo"/>
+    <meta name="msvalidate.01" content="E90DBA4A9D3D37F1056E64E5604A7A0D"/>
+    <meta name="yandex-verification" content="19286758bf144d3d"/>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-328425-45', 'auto');
-  ga('send', 'pageview');
+        ga('create', 'UA-328425-45', 'auto');
+        ga('send', 'pageview');
 
-</script>
+    </script>
 
 
-	
-<meta name="referrer" content="always">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://cdn.shoelace.style/1.0.0-beta24/shoelace.css" />
-	<style type="text/css">
-    h1 { font-weight: bold }
-    .q { font-weight: bold; margin-top: 1.25rem; margin-bottom: 0.25rem }
-    .a { margin-bottom: 0.25rem; }
-	</style>
-	<link rel="shortcut icon" href="/favicon.ico">
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="https://cdn.shoelace.style/1.0.0-beta24/shoelace.js"></script>
-<script>
-  function loadSites() {
-    $.get({ url: 'sitelist.json', dataType: 'json', success: function(data) {
-      $("#sitelist").empty();
-      var sites = data.sites;
-      for (var loop = 0; loop < sites.length; loop++) {
-        $("#sitelist").append($("<tr>")
-                          .append($("<td>")
+    <meta name="referrer" content="always">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.shoelace.style/1.0.0-beta24/shoelace.css"/>
+    <style type="text/css">
+        h1 {
+            font-weight: bold
+        }
+
+        .q {
+            font-weight: bold;
+            margin-top: 1.25rem;
+            margin-bottom: 0.25rem
+        }
+
+        .a {
+            margin-bottom: 0.25rem;
+        }
+    </style>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.shoelace.style/1.0.0-beta24/shoelace.js"></script>
+    <script>
+        function loadSites() {
+            $.get({
+                url: 'sitelist.json', dataType: 'json', success: function (data) {
+                    $("#sitelist").empty();
+                    var sites = data.sites;
+                    for (var loop = 0; loop < sites.length; loop++) {
+                        $("#sitelist").append($("<tr>")
+                            .append($("<td>")
                                 .append($("<a>").attr("href", sites[loop].logolink)
-                                  .append($("<img>").attr("src", sites[loop].logo).css("height", "24pt").css("padding-right", "10px")))
-                                )
-                          .append($("<td>")
+                                    .append($("<img>").attr("src", sites[loop].logo).css("height", "24pt").css("padding-right", "10px")))
+                            )
+                            .append($("<td>")
                                 .append($("<span>").text(sites[loop].name)))
-                          .append($("<td>")
+                            .append($("<td>")
                                 .append($("<span>").text(sites[loop].id)))
-                             );
-      }
-    }})
-  }
-  
-  $(document).ready(loadSites);
-  
-</script>
+                            .append($("<td>")
+                                .append($("<a>").attr("href", "/go?site=" + sites[loop].id
+                                    + "&url=" + encodeURIComponent("https://simpleshare.io/")
+                                    + "&text=" + encodeURIComponent("Simple script-less share buttons")
+                                    + "&summary=" + encodeURIComponent("The most awesome-est way to share!!!"))
+                                    .text("Share on " + sites[loop].name)
+                                )
+                            )
+                        );
+                    }
+                }
+            })
+        }
+
+        $(document).ready(loadSites);
+
+    </script>
 </head>
 <body>
-  <div class="container">
-  <div class="row">
-    <div class="col">
-      <h1>
-        <img src="/favicon.svg" style="width:24pt;height:24pt;margin-top:-4pt;"/>
-        SimpleShare
-      </h1>
-      <p class="subtitle">
-        Simple script-less share buttons
-      </p>
-      
-      <p class="q">
-        What is this?
-      </p>
-      <p class="a">
-        A helper site to build buttons for sharing links on the various social sites, but without loading JavaScript or invading the privacy of your visitors.
-      </p>
-      
-      <p class="q">
-        How do I use it?
-      </p>
-      <p class="a">
-        Embed a link to <code>https://simpleshare.io/go</code> with the correct parameters:
-        <table class="table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>Parameter</th>
-              <th>Required?</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>site</code></td>
-              <td>Required</td>
-              <td>ID of the site where you want to share.  See the list below.</td>
-            </tr>
-            <tr>
-              <td><code>url</code></td>
-              <td>Required</td>
-              <td>The complete URL (including http(s) and host name) of the page to share.</td>
-            </tr>
-            <tr>
-              <td><code>text</code></td>
-              <td>Optional</td>
-              <td>Short text description, usually the page title.  Supported by most, but not all sharing sites.</td>
-            </tr>
-            <tr>
-              <td><code>summary</code></td>
-              <td>Optional</td>
-              <td>Longer text description.  Only supported by a few sharing sites.</td>
-            </tr>
-            <tr>
-              <td><code>ga</code></td>
-              <td>Optional</td>
-              <td>Google Analytics ID for server-side logging</td>
-            </tr>
-          </tbody>
-        </table>
-      </p>
-      
-     <p class="q">
-        Which social sites are available?
-      </p>
-      <table class="table-striped table-bordered">
-        <thead>
-          <tr>
-            <th>Icon</th>
-            <th>Name</th>
-            <th>ID (for the <code>site</code> parameter)</th>
-          </tr>
-        </thead>
-        <tbody id="sitelist">
-          <tr>
-            <td colspan="3">Loading...</td>
-          </tr>
-        </tbody>
-      </table>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>
+                <img src="/favicon.svg" style="width:24pt;height:24pt;margin-top:-4pt;"/>
+                SimpleShare
+            </h1>
+            <p class="subtitle">
+                Simple script-less share buttons
+            </p>
 
-        <p class="q">
-            What if I want nice images?
-        </p>
-        <p class="a">
-            I recommend the <code>-tile</code> images from <a href="http://www.vectorlogo.zone/logos/visual.html#tile">VectorLogo.Zone</a>.  They are vector (.SVG) images
-            that look good at any size and resolution.  If you want to host them yourself, you can get them from VLZ or the original source on
-            github: <a href="https://github.com/edent/SuperTinyIcons">edent/SuperTinyIcons</a>.
-        </p>
+            <p class="q">
+                What is this?
+            </p>
+            <p class="a">
+                A helper site to build buttons for sharing links on the various social sites, but without loading
+                JavaScript or invading the privacy of your visitors.
+            </p>
 
-        <p class="q">
-            How can I tell when someone shares?
-        </p>
-        <p class="a">
-            Setup a free account at Google Analytics, and add a <code>ga</code> parameters with your Google Analytics ID.  The ID should look like <code>GA-123456-7</code>
-        </p>
+            <p class="q">
+                How do I use it?
+            </p>
+            <p class="a">
+                Embed a link to <code>https://simpleshare.io/go</code> with the correct parameters:
+            <table class="table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Required?</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><code>site</code></td>
+                    <td>Required</td>
+                    <td>ID of the site where you want to share. See the list below.</td>
+                </tr>
+                <tr>
+                    <td><code>url</code></td>
+                    <td>Required</td>
+                    <td>The complete URL (including http(s) and host name) of the page to share.</td>
+                </tr>
+                <tr>
+                    <td><code>text</code></td>
+                    <td>Optional</td>
+                    <td>Short text description, usually the page title. Supported by most, but not all sharing sites.
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>summary</code></td>
+                    <td>Optional</td>
+                    <td>Longer text description. Only supported by a few sharing sites.</td>
+                </tr>
+                <tr>
+                    <td><code>image</code></td>
+                    <td>Optional</td>
+                    <td>Image to include. Only supported by a few sharing sites. Most sites get it from the <a
+                        href="https://blog.kissmetrics.com/open-graph-meta-tags/">og:image metadata</a></td>
+                </tr>
+                <tr>
+                    <td><code>ga</code></td>
+                    <td>Optional</td>
+                    <td>Google Analytics ID for server-side logging</td>
+                </tr>
+                </tbody>
+            </table>
+            </p>
 
-        <p class="q">
-        What did you use to make Simple Share?
-      </p>
-      <p class="a">
-        Javascript, Node.js, Express, ShoelaceCSS, Glitch, npm, VectorLogo.Zone, Firefox, Google Analytics, IntelliJ
-      </p>
-    
-      <p class="q">
-        Aren't there a million sites that do exactly this?
-      </p>
-      <p class="a">
-        Well, yes and no.  AlternativeTo lists over <a href="https://alternativeto.net/software/sharethis/">20</a>.  The most similar ones are <a href="http://sharingbuttons.io/">SharingButtons.io</a> and <a href="https://simplesharingbuttons.com/">SimpleSharingButtons</a>, but then 
-        you have maintain the list of sharing URLs and parameters.
-      </p>
+            <p class="q">
+                Which social sites are available?
+            </p>
+            <table class="table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Icon</th>
+                    <th>Name</th>
+                    <th>ID (for the <code>site</code> parameter)</th>
+                    <th>Test</th>
+                </tr>
+                </thead>
+                <tbody id="sitelist">
+                <tr>
+                    <td colspan="3">Loading...</td>
+                </tr>
+                </tbody>
+            </table>
 
-        <!-- how to add a site -->
-        <!-- contributing -->
-    
-      
-      <p class="q">
-        Q
-      </p>
-      <p class="a">
-        A
-      </p>
+            <p class="q">
+                What if I want nice images?
+            </p>
+            <p class="a">
+                I recommend the <code>-tile</code> images from <a
+                href="http://www.vectorlogo.zone/logos/visual.html#tile">VectorLogo.Zone</a>. They are vector (.SVG)
+                images
+                that look good at any size and resolution. If you want to host them yourself, you can get them from VLZ
+                or the original source on
+                github: <a href="https://github.com/edent/SuperTinyIcons">edent/SuperTinyIcons</a>.
+            </p>
 
+            <p class="q">
+                How can I tell when someone shares?
+            </p>
+            <p class="a">
+                Setup a free account at Google Analytics, and add a <code>ga</code> parameters with your Google
+                Analytics ID. The ID should look like <code>GA-123456-7</code>
+            </p>
+
+            <p class="q">
+                What did you use to make Simple Share?
+            </p>
+            <p class="a">
+                Javascript, Node.js, Express, ShoelaceCSS, Glitch, npm, VectorLogo.Zone, Firefox, Google Analytics,
+                IntelliJ
+            </p>
+
+            <p class="q">
+                Aren't there a million sites that do exactly this?
+            </p>
+            <p class="a">
+                Well, yes and no. AlternativeTo lists over <a
+                href="https://alternativeto.net/software/sharethis/">20</a>. The most similar ones are <a
+                href="http://sharingbuttons.io/">SharingButtons.io</a> and <a href="https://simplesharingbuttons.com/">SimpleSharingButtons</a>,
+                but then
+                you have maintain the list of sharing URLs and parameters.
+            </p>
+
+            <!-- how to add a site -->
+            <!-- contributing in general -->
+            <!-- details about GA calls -->
+
+            <p class="q">
+                Q
+            </p>
+            <p class="a">
+                A
+            </p>
+
+        </div>
     </div>
-  </div>
-  </div>
+</div>
 </body>
 </html>
