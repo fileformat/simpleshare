@@ -14,12 +14,12 @@
     "node": "8.1.4"
   },
   "repository": {
-    "url": "https://www.github.com/fileformat/jz-simple-share"
+    "url": "https://www.github.com/fileformat/simpleshare"
   },
   "keywords": [
     "sharing",
     "social",
     "redirect",
-    "json.zone"
+    "bookmark"
   ]
 }
