@@ -75,12 +75,18 @@ function getVariables(req, res) {
   
     var summary = req.query["summary"];
     if (summary == null) {
-        summary = text;
+        summary = "";
     }
-  
+
+    var image = req.query["image"];
+    if (image == null) {
+        image = "";
+    }
+
     result["URL"] = encodeURIComponent(req.query["url"]);
     result["TEXT"] = encodeURIComponent(text);
     result["SUMMARY"] = encodeURIComponent(summary);
+    result["IMAGE"] = encodeURIComponent(image);
 
     return result;
 }
@@ -268,16 +274,21 @@ var listener = app.listen(process.env.PORT, function () {
 var TEXT = 'TEXT';
 var URL = 'URL';
 var SUMMARY = 'SUMMARY';
+var IMAGE = 'IMAGE';
 
 var share_urls = {
-  'facebook': { name: 'Facebook', logo: 'facebook', url_template: make_template`https://facebook.com/sharer/sharer.php?u=${URL}`},
-  'twitter': { name: 'Twitter', logo: 'twitter', url_template: make_template`https://twitter.com/intent/tweet/?text=${TEXT}&url=${URL}`},
-  'googleplus': { name: 'Google+', logo: 'google_plus', url_template: make_template`https://plus.google.com/share?url=${URL}`},
-  'tumblr': { name: 'Tumblr', logo: 'tumblr', url_template: make_template`https://www.tumblr.com/widgets/share/tool?posttype=link&title=${TEXT}&caption=${TEXT}&content=${URL}&canonicalUrl=${URL}&shareSource=tumblr_share_button`},
-  'pinterest': { name: 'Pinterest', logo: 'pinterest', url_template: make_template`https://pinterest.com/pin/create/button/?url=${URL}&media=${URL}&summary=${TEXT}`},
-  'linkedin': { name: 'LinkedIn', logo: 'linkedin', url_template: make_template`https://www.linkedin.com/shareArticle?mini=true&url=${URL}&title=${TEXT}&summary=${TEXT}&source=${URL}`},
-  'reddit': { name: 'Reddit', logo: 'reddit', url_template: make_template`https://reddit.com/submit/?url=${URL}`},
-  'xing': { name: 'XING', logo: 'xing', url_template: make_template`https://www.xing.com/app/user?op=share;url=${URL};title=${TEXT}`},
-  'whatsapp': { name: 'WhatsApp', logo: 'whatsapp', url_template: make_template`whatsapp://send?text=${TEXT}%20${URL}`}
+    'facebook': { name: 'Facebook', logo: 'facebook', url_template: make_template`https://facebook.com/sharer/sharer.php?u=${URL}`},
+    'googleplus': { name: 'Google+', logo: 'google_plus', url_template: make_template`https://plus.google.com/share?url=${URL}`},
+    'linkedin': { name: 'LinkedIn', logo: 'linkedin', url_template: make_template`https://www.linkedin.com/shareArticle?mini=true&url=${URL}&title=${TEXT}&summary=${TEXT}&source=${URL}`},
+    'pinboard': { name: 'Pinboard', logo: 'pinboard', url_template: make_template`https://pinboard.in/add?next=same&url=${URL}&description=${SUMMARY}&title=${TEXT}`},
+    'pinterest': { name: 'Pinterest', logo: 'pinterest', url_template: make_template`https://pinterest.com/pin/create/button/?url=${URL}&media=${IMAGE}&summary=${TEXT}`},
+    'pocket': { name: 'Pocket', logo: 'getpocket', url_template: make_template`https://getpocket.com/save?url=${URL}&title=${TEXT}`},
+    'reddit': { name: 'Reddit', logo: 'reddit', url_template: make_template`https://reddit.com/submit/?url=${URL}`},
+    'tumblr': { name: 'Tumblr', logo: 'tumblr', url_template: make_template`https://www.tumblr.com/widgets/share/tool?posttype=link&title=${TEXT}&caption=${TEXT}&content=${URL}&canonicalUrl=${URL}&shareSource=tumblr_share_button`},
+    'twitter': { name: 'Twitter', logo: 'twitter', url_template: make_template`https://twitter.com/intent/tweet/?text=${TEXT}&url=${URL}`},
+    'whatsapp': { name: 'WhatsApp', logo: 'whatsapp', url_template: make_template`whatsapp://send?text=${TEXT}%20${URL}`},
+    'wordpress': { name: 'Wordpress', logo: 'wordpress', url_template: make_template`https://wordpress.com/press-this.php?u=${URL}&t=${TEXT}&s=${SUMMARY}&i=${IMAGE}`},
+    'xing': { name: 'XING', logo: 'xing', url_template: make_template`https://www.xing.com/app/user?op=share;url=${URL};title=${TEXT}`},
+    'ycombinator': { name: 'Ycombinator (Hacker News)', logo: 'ycombinator', url_template: make_template`https://news.ycombinator.com/submitlink?u=${URL}&t=${TEXT}`}
 };
 
