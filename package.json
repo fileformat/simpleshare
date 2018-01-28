@@ -5,6 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
+    "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm",
+    "alias": "now alias --token=$NOW_TOKEN"
   },
   "dependencies": {
     "express": "^4.15.4",
@@ -12,6 +14,10 @@
   },
   "engines": {
     "node": "8.1.4"
+  },
+  "now": {
+    "name": "simpleshare.io",
+    "alias": "simpleshareio"
   },
   "repository": {
     "url": "https://www.github.com/fileformat/simpleshare"
