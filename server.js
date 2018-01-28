@@ -305,6 +305,11 @@ var share_urls = {
         logo: 'google_plus',
         url_template: make_template`https://plus.google.com/share?url=${URL}`
     },
+    'hn': {
+        name: 'Hacker News',
+        logo: 'ycombinator',
+        url_template: make_template`https://news.ycombinator.com/submitlink?u=${URL}&t=${TEXT}`
+    },
     'linkedin': {
         name: 'LinkedIn',
         logo: 'linkedin',
@@ -364,11 +369,6 @@ var share_urls = {
         name: 'XING',
         logo: 'xing',
         url_template: make_template`https://www.xing.com/app/user?op=share;url=${URL};title=${TEXT}`
-    },
-    'ycombinator': {
-        name: 'Ycombinator (Hacker News)',
-        logo: 'ycombinator',
-        url_template: make_template`https://news.ycombinator.com/submitlink?u=${URL}&t=${TEXT}`
     }
 };
 
