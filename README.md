@@ -66,7 +66,11 @@ More Sites
 [![Node.js](https://www.vectorlogo.zone/logos/nodejs/nodejs-ar21.svg)](https://nodejs.org/ "Application Server")
 [![express.js](https://www.vectorlogo.zone/logos/expressjs/expressjs-ar21.svg)](https://expressjs.com/ "Web Framework")
 [![Google Analytics](https://www.vectorlogo.zone/logos/google_analytics/google_analytics-ar21.svg)](https://www.google.com/analytics "Traffic Measurement")
-[![Zeit](https://www.vectorlogo.zone/logos/zeit/zeit-ar21.svg)](https://www.zeit.com/ "Hosting")
-[![npm](https://www.vectorlogo.zone/logos/npm/npm-ar21.svg)](https://www.npmjs.com/analytics "JS Package Management")
+[![Zeit](https://www.vectorlogo.zone/logos/zeit/zeit-ar21.svg)](https://zeit.co/ "Hosting")
+[![npm](https://www.vectorlogo.zone/logos/npmjs/npmjs-ar21.svg)](https://www.npmjs.com/ "JS Package Management")
+[![Shoelace CSS](https://www.vectorlogo.zone/logos/shoelacestyle/shoelacestyle-ar21.svg)](https://shoelace.style/ "CSS")
+[![Git](https://www.vectorlogo.zone/logos/git-scm/git-scm-ar21.svg)](https://git-scm.com/ "Version control")
+[![Github](https://www.vectorlogo.zone/logos/github/github-ar21.svg)](https://github.com/ "Code hosting")
 
-ShoelaceCSS, SuperTinyIcons, Firefox, IntelliJ
+
+SuperTinyIcons, Firefox, IntelliJ
