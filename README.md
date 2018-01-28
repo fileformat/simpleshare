@@ -49,6 +49,8 @@ More Sites
  - [ ] wordpress
  - [ ] Yammer
  - [ ] youtube
+ - [Social bookmark list on Wikipedia](https://en.wikipedia.org/wiki/List_of_social_bookmarking_websites)
+ - [Social network list on Wikipedia](https://en.wikipedia.org/wiki/List_of_social_networking_websites)
 
 
 ## Sources for site URLs
