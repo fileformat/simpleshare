@@ -56,9 +56,9 @@
                         $("#sitelist").append($("<tr>")
                             .append($("<td>")
                                 .append($("<a>").attr("href", sites[loop].logolink)
-                                    .append($("<img>").attr("src", sites[loop].logo).css("height", "24pt").css("padding-right", "10px")))
+                                    .append($("<img>").attr("src", sites[loop].logo).css("height", "24pt").css("width", "24pt")/* .css("padding-right", "10px") */))
                             )
-                            .append($("<td>")
+                            .append($("<td>").addClass("hide-sm-down")
                                 .append($("<span>").text(sites[loop].name)))
                             .append($("<td>")
                                 .append($("<span>").text(sites[loop].id)))
@@ -66,7 +66,8 @@
                                 .append($("<a>").attr("href", "/go?site=" + sites[loop].id
                                     + "&url=" + encodeURIComponent("https://simpleshare.io/")
                                     + "&text=" + encodeURIComponent("Simple script-less share buttons")
-                                    + "&summary=" + encodeURIComponent("The most awesome-est way to share!!!"))
+                                    + "&summary=" + encodeURIComponent("The most awesome-est way to share!!!")
+                                    + "&image=" + encodeURIComponent("https://www.vectorlogo.zone/logos/simpleshareio/simpleshareio-card.png"))
                                     .text("Share on " + sites[loop].name)
                                 )
                             )
@@ -158,7 +159,7 @@
                 <tr>
                     <th>Icon</th>
                     <th>Name</th>
-                    <th>ID (for the <code>site</code> parameter)</th>
+                    <th class="hide-sm-down">ID (for the <code>site</code> parameter)</th>
                     <th>Test</th>
                 </tr>
                 </thead>
