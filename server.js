@@ -196,6 +196,10 @@ app.get('/sitelist.json', function (req, res) {
             site_result.logolink = "https://www.vectorlogo.zone/logos/" + site.logo + "/index.html";
             site_result.logo = "https://www.vectorlogo.zone/logos/" + site.logo + "/" + site.logo + "-tile.svg";
         }
+        var url = site.url_template({"SUMMARY": "${SUMMARY}", "IMAGE": "${IMAGE}"});
+        site_result.has_summary = (url.indexOf("${SUMMARY}") > 0);
+        site_result.has_image = (url.indexOf("${IMAGE}") > 0);
+        site_result.mobile_only = (url.startsWith("https://") == false);
         sites.push(site_result);
     }
 
@@ -321,7 +325,16 @@ var share_urls = {
         logo: 'getpocket',
         url_template: make_template`https://getpocket.com/save?url=${URL}&title=${TEXT}`
     },
-    'reddit': {name: 'Reddit', logo: 'reddit', url_template: make_template`https://reddit.com/submit/?url=${URL}`},
+    'reddit': {
+        name: 'Reddit',
+        logo: 'reddit',
+        url_template: make_template`https://reddit.com/submit/?url=${URL}`
+    },
+    'stumbleupon': {
+        name: 'StumbleUpon',
+        logo: 'stumbleupon',
+        url_template: make_template`http://www.stumbleupon.com/submit?url=${URL}&title=${TEXT}`
+    },
     'tumblr': {
         name: 'Tumblr',
         logo: 'tumblr',
@@ -331,6 +344,11 @@ var share_urls = {
         name: 'Twitter',
         logo: 'twitter',
         url_template: make_template`https://twitter.com/intent/tweet/?text=${TEXT}&url=${URL}`
+    },
+    'vk': {
+        name: 'VK',
+        logo: 'vk',
+        url_template: make_template`http://vk.com/share.php?url=${URL}&title=${TEXT}`
     },
     'whatsapp': {
         name: 'WhatsApp',
