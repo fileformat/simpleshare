@@ -4,7 +4,7 @@
   "description": "Support 'share' links for static sites without invasive tracking",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
     "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm",
     "alias": "now alias --token=$NOW_TOKEN"
   },
