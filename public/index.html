@@ -25,12 +25,13 @@
     </script>
 
 
-    <meta name="referrer" content="always">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="referrer" content="always" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="stylesheet" href="https://cdn.shoelace.style/1.0.0-beta24/shoelace.css"/>
-    <style type="text/css">
+    <style>
         h1 {
-            font-weight: bold
+            font-weight: bold;
+            color: #1c73ff;
         }
 
         .q {
@@ -42,8 +43,11 @@
         .a {
             margin-bottom: 0.25rem;
         }
+        .iconcell {
+            text-align: center;
+        }
     </style>
-    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico" />
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdn.shoelace.style/1.0.0-beta24/shoelace.js"></script>
     <script>
@@ -54,7 +58,7 @@
                     var sites = data.sites;
                     for (var loop = 0; loop < sites.length; loop++) {
                         $("#sitelist").append($("<tr>")
-                            .append($("<td>")
+                            .append($("<td>").addClass("iconcell")
                                 .append($("<a>").attr("href", sites[loop].logolink)
                                     .append($("<img>").attr("src", sites[loop].logo).css("height", "24pt").css("width", "24pt")/* .css("padding-right", "10px") */))
                             )
@@ -87,7 +91,7 @@
         <div class="col">
             <h1>
                 <img src="/favicon.svg" style="width:24pt;height:24pt;margin-top:-4pt;"/>
-                SimpleShare
+                SimpleShare.IO
             </h1>
             <p class="subtitle">
                 Simple script-less share buttons
@@ -157,7 +161,7 @@
             <table class="table-striped table-bordered">
                 <thead>
                 <tr>
-                    <th>Icon</th>
+                    <th class="iconcell">Icon</th>
                     <th class="hide-sm-down">Name</th>
                     <th>ID<span class="hide-sm-down"> (for the <code>site</code> parameter)</span></th>
                     <th>Test</th>
