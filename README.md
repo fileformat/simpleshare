@@ -1,65 +1,27 @@
-Simple-Share
+<img alt="SimpleShare Logo" src="https://www.vectorlogo.zone/logos/simpleshareio/simpleshareio-tile.svg" height="96" >
+
+SimpleShareIO
 ============
 
-This is a simple site to redirect to one of the social sharing sites.  It is really just so I don't have to use a third-party service that bloats my pages with a ton of Javascript and tracks my viewers.
+[SimpleShare.IO](https://simpleshare.io/) is a simple site to redirect to one of the social sharing sites.  It is really just so I don't have to use a third-party service that bloats my pages with a ton of Javascript and tracks my viewers.
 
-There are more details on the [FAQ](https://simpleshare.io/) and you can see the source code on [Github](https://www.github.com/fileformat/simpleshare).
+There are more details on the [FAQ](https://simpleshare.io/) page.
 
-To Do
------
- - [ ] note about server-side ga
- - [ ] redirect www to @
- - [ ] G Webmaster
- - [ ] Bing Webmaster
- - [ ] better logging
- - [ ] custom logo?
- - [ ] robot filter (captcha?)
- - [ ] 'pretty' option for json
- - [ ] content-type's for json
- - [ ] callback should be valid js function name
- - [ ] FAQ: email
- - [ ] FAQ: clipboard
- - [ ] FAQ: printer
- - [ ] tile for email
- - [ ] tile for clipboard
- - [ ] tile for printer
+## Running
 
-More Sites
-----------
- - [ ] BufferApp
- - [ ] digg [url](http://www.digg.com/submit?url=URL&title=TEXT)
- - [ ] Disqus
- - [ ] email
- - [ ] Facebook Messenger
- - [ ] LINE
- - [ ] facebook messenger
- - [ ] gmail
- - [ ] Kakao Talk
- - [ ] print
- - [ ] qzone
- - [ ] Signal
- - [ ] Skype
- - [ ] Slack
- - [ ] SnapChat
- - [ ] Stack Overflow
- - [ ] Telegram [url](https://telegram.me/share/url?text=TEXT&url=URL)
- - [ ] Trello
- - [ ] wechat
- - [ ] Wire
- - [ ] wordpress
- - [ ] Yammer
- - [ ] youtube
- - [Social bookmark list on Wikipedia](https://en.wikipedia.org/wiki/List_of_social_bookmarking_websites)
- - [Social network list on Wikipedia](https://en.wikipedia.org/wiki/List_of_social_networking_websites)
+It is a simple node.js app.  `npm install` and then `npm start`.
 
+If you want to send an event to Google Analytics for every hit, set the `GA_ID` environment variable to your GA property ID.
 
-## Sources for site URLs
+Set the `PORT` environment variable to run it on a specific port.
 
- * [Shariff source code](https://github.com/heiseonline/shariff/tree/develop/src/js/services)
- * [FourTonFish](https://fourtonfish.com/blog/2013-09-simple-sharing-buttons-free/) - author of [SimpleSharingButtons](https://simplesharingbuttons.com/)
-   lists the sites with links to how he figured out the correct sharing URLs.
- * [vinkla](https://github.com/vinkla/shareable-links)
- * Trace the traffic when using a commercial service like [AddToAny](https://www.addtoany.com/services/).
+## Contributing
+
+Contributions are welcome!  Please see the [Contribution Guidelines](CONTRIBUTING.md)!
+
+## License
+
+[GNU Affero General Public License v3.0](LICENSE.txt)
 
 ## Credits
 
@@ -75,4 +37,4 @@ More Sites
 [![Github](https://www.vectorlogo.zone/logos/github/github-ar21.svg)](https://github.com/ "Code hosting")
 
 
-SuperTinyIcons, Firefox, IntelliJ
+SuperTinyIcons
