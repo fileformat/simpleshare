@@ -340,6 +340,11 @@ var share_urls = {
         logo: 'stumbleupon',
         url_template: make_template`http://www.stumbleupon.com/submit?url=${URL}&title=${TEXT}`
     },
+    'telegram': {
+        name: 'Telegram',
+        logo: 'telegram',
+        url_template: make_template`https://telegram.me/share/url?text=${TEXT}&url=${URL}`
+    },
     'tumblr': {
         name: 'Tumblr',
         logo: 'tumblr',
