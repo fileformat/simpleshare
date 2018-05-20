@@ -18,6 +18,8 @@ function getStatus() {
     retVal["success"] = true;
     retVal["message"] = "OK";
     retVal["timestamp"] = new Date().toISOString();
+    retVal["lastmod"] = process.env.LASTMOD || null;
+    retVal["commit"] = process.env.COMMIT || null;
     retVal["__dirname"] = __dirname;
     retVal["__filename"] = __filename;
     retVal["os.hostname"] = os.hostname();
