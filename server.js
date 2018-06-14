@@ -181,7 +181,7 @@ function trackEvent(req, ga_id, event) {
         url: "https://www.google-analytics.com/collect",
         formData: formData
     }, function (error, response, body) {
-        console.log("INFO: ga tracking returned " + response.statusCode);
+        console.log("INFO: ga tracking for " + ga_id + " returned " + response.statusCode);
     });
 }
 
@@ -266,6 +266,7 @@ app.get('/go', function (req, res) {
         return;
     }
 
+    console.log("DEBUG: site=" + site + " data=" + JSON.stringify(vars));
 
     var loc = share_urls[site].url_template(vars);
 
