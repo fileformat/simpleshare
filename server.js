@@ -20,6 +20,7 @@ function getStatus() {
     retVal["timestamp"] = new Date().toISOString();
     retVal["lastmod"] = process.env.LASTMOD || null;
     retVal["commit"] = process.env.COMMIT || null;
+    retVal["GA_ID"] = process.env.GA_ID;
     retVal["__dirname"] = __dirname;
     retVal["__filename"] = __filename;
     retVal["os.hostname"] = os.hostname();
