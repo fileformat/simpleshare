@@ -42,7 +42,7 @@ function getStatus() {
     retVal["process.platform"] = process.platform;
     retVal["process.release"] = process.release;
     retVal["process.title"] = process.title;
-    retVal["process.uptime"] = process.uptime;
+    retVal["process.uptime"] = process.uptime();
     retVal["process.version"] = process.version;
     retVal["process.versions"] = process.versions;
     retVal["process.installPrefix"] = process.installPrefix;

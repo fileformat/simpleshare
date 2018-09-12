@@ -5,4 +5,4 @@
 
 #nvm use 8
 export $(cat .env)
-npm start
+PORT=4000 npm start
