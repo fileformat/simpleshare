@@ -15,10 +15,6 @@
   "engines": {
     "node": "8.1.4"
   },
-  "now": {
-    "name": "simpleshare.io",
-    "alias": "simpleshareio"
-  },
   "repository": {
     "url": "https://www.github.com/fileformat/simpleshare"
   },
