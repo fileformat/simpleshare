@@ -1,10 +1,10 @@
 {
   "name": "simpleshare.io",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Support 'share' links for static sites without invasive tracking",
-  "main": "server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node dist/server.js",
     "deploy": "now --public -e NODE_ENV=production -e GA_ID=$GA_ID --token $NOW_TOKEN --npm",
     "alias": "now alias --token=$NOW_TOKEN"
   },
@@ -23,5 +23,11 @@
     "social",
     "redirect",
     "bookmark"
-  ]
+  ],
+  "devDependencies": {
+    "@types/express": "^4.16.0",
+    "@types/node": "^10.11.4",
+    "@types/request": "^2.47.1",
+    "typescript": "^3.1.1"
+  }
 }

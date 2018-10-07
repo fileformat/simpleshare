@@ -2,6 +2,7 @@
 .cache
 *.class
 crash.log
+dist/
 .env
 .idea/
 .jekyll-metadata

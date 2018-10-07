@@ -3,7 +3,11 @@ To Do
 
 Features
 --------
- - [ ] better logging
+ - [ ] TypeScript
+ - [ ] koa
+ - [ ] deploy script to purge old version
+ - [ ] force domain to simpleshare.io
+ - [ ] better logging (pino-koa-logger)
  - [ ] robot filter (captcha?)
  - [ ] 'pretty' option for json
  - [ ] content-type's for json

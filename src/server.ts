@@ -2,18 +2,18 @@
 // where your node app starts
 
 // init project
-var express = require('express');
-var fs = require('fs');
-var os = require('os');
-var request = require('request');
+import * as express from 'express';
+//import * as fs from 'fs';
+import * as os from 'os';
+import * as request from 'request';
 
-var app = express();
+const app = express();
 
 
 app.use(express.static('public'));
 
 function getStatus() {
-    var retVal = {};
+    const retVal: {[key:string]: any } = {};
 
     retVal["success"] = true;
     retVal["message"] = "OK";
@@ -45,7 +45,6 @@ function getStatus() {
     retVal["process.uptime"] = process.uptime();
     retVal["process.version"] = process.version;
     retVal["process.versions"] = process.versions;
-    retVal["process.installPrefix"] = process.installPrefix;
 
     return retVal;
 }
@@ -61,8 +60,8 @@ app.get('/status.json', function (req, res) {
     sendJson(req, res, getStatus());
 });
 
-function getVariables(req, res) {
-    var result = {};
+function getVariables(req:express.Request, res:express.Response) {
+    const result:{[key:string]: any} = {};
     if ('url' in req.query == false) {
         result["success"] = false;
         result["code"] = 400;
@@ -71,20 +70,12 @@ function getVariables(req, res) {
         return null;
     }
 
-    var text = req.query["text"];
-    if (text == null) {
-        text = req.query["url"];      // LATER: split off just filename?
-    }
+    // LATER: split off just filename?
+    const text = req.query["text"] || req.query["url"];
 
-    var summary = req.query["summary"];
-    if (summary == null) {
-        summary = "";
-    }
+    const summary = req.query["summary"] || '';
 
-    var image = req.query["image"];
-    if (image == null) {
-        image = "";
-    }
+    const image = req.query["image"] || '';
 
     result["URL"] = encodeURIComponent(req.query["url"]);
     result["TEXT"] = encodeURIComponent(text);
@@ -94,8 +85,8 @@ function getVariables(req, res) {
     return result;
 }
 
-function getSite(req, res) {
-    var result = {};
+function getSite(req:express.Request, res:express.Response) {
+    const result:{[key:string]:any} = {};
     if ('site' in req.query == false) {
         result["success"] = false;
         result["code"] = 400;
@@ -104,7 +95,7 @@ function getSite(req, res) {
         return null;
     }
 
-    var site = req.query["site"];
+    const site = req.query["site"];
     if (share_urls[site] == null) {
         result["success"] = false;
         result["code"] = 404;
@@ -116,12 +107,12 @@ function getSite(req, res) {
     return site;
 }
 
-function make_template(strings, ...keys) {
-    return (function (...values) {
-        var dict = values[values.length - 1] || {};
-        var result = [strings[0]];
+function make_template(strings:TemplateStringsArray, ...keys:string[]) {
+    return (function (...values:any[]) {
+        const dict = values[values.length - 1] || {};
+        const result = [strings[0]];
         keys.forEach(function (key, i) {
-            var value = Number.isInteger(key) ? values[key] : dict[key];
+            const value = dict[key];
             result.push(value, strings[i + 1]);
         });
         return result.join('');
@@ -129,7 +120,7 @@ function make_template(strings, ...keys) {
 }
 
 
-function sendJson(req, res, jsonObj) {
+function sendJson(req:express.Request, res:express.Response, jsonObj:{[key:string]: any}) {
     if ('callback' in req.query) {
         res.write(req.query["callback"]);
         res.write("(");
@@ -142,11 +133,11 @@ function sendJson(req, res, jsonObj) {
     res.end();
 }
 
-function trackEvent(req, ga_id, event) {
+function trackEvent(req:express.Request, ga_id:string | undefined, event:{[key:string]:string}) {
     if (!ga_id) {
         return;
     }
-    var fields = {};
+    const fields:{[key:string]:string} = {};
     fields.v = '1';
     fields.tid = ga_id;
     fields.cid = '';    // anonymous client id
@@ -156,9 +147,11 @@ function trackEvent(req, ga_id, event) {
     fields.el = event.eventLabel;
     fields.ev = event.eventValue;
     fields.ua = req.get('user-agent') || '(not set)';
-    fields.uip = req.ip || null;
+    if (req.ip) {
+        fields.uip = req.ip;
+    }
 
-    var formData = {};
+    const formData:{[key:string]:string} = {};
     formData.v = '1';
     formData.tid = ga_id;
     formData.cid = '';    // anonymous client id
@@ -187,19 +180,19 @@ function trackEvent(req, ga_id, event) {
 }
 
 app.get('/sitelist.json', function (req, res) {
-    var result = {};
+    const result:{[key:string]: any} = {};
 
-    var sites = [];
+    const sites = [];
 
-    var keys = Object.keys(share_urls);
-    for (var loop = 0; loop < keys.length; loop++) {
-        var site = share_urls[keys[loop]];
-        var site_result = {name: site.name, id: keys[loop]};
+    const keys = Object.keys(share_urls);
+    for (let loop = 0; loop < keys.length; loop++) {
+        const site = share_urls[keys[loop]];
+        const site_result:{[key:string]: any} = {name: site.name, id: keys[loop]};
         if (site.logo) {
             site_result.logolink = "https://www.vectorlogo.zone/logos/" + site.logo + "/index.html";
             site_result.logo = "https://www.vectorlogo.zone/logos/" + site.logo + "/" + site.logo + "-tile.svg";
         }
-        var url = site.url_template({"SUMMARY": "${SUMMARY}", "IMAGE": "${IMAGE}"});
+        const url = site.url_template({"SUMMARY": "${SUMMARY}", "IMAGE": "${IMAGE}"});
         site_result.has_summary = (url.indexOf("${SUMMARY}") > 0);
         site_result.has_image = (url.indexOf("${IMAGE}") > 0);
         site_result.mobile_only = (url.startsWith("https://") == false);
@@ -214,12 +207,12 @@ app.get('/sitelist.json', function (req, res) {
 });
 
 app.get('/siteinfo.json', function (req, res) {
-    var site = getSite(req, res);
+    const site = getSite(req, res);
     if (site == null) {
         return;
     }
 
-    var result = {};
+    const result:{[key:string]: any} = {};
 
     result["success"] = true;
     result["message"] = "Information for " + share_urls[site].name;
@@ -234,17 +227,17 @@ app.get('/siteinfo.json', function (req, res) {
 });
 
 app.get('/siteurl.json', function (req, res) {
-    var site = getSite(req, res);
+    const site = getSite(req, res);
     if (site == null) {
         return;
     }
 
-    var vars = getVariables(req, res);
+    const vars = getVariables(req, res);
     if (vars == null) {
         return;
     }
 
-    var result = {};
+    const result:{[key:string]: any} = {};
 
     result["success"] = true;
     result["message"] = "Link to '" + req.query["url"] + "' for " + share_urls[site].name;
@@ -257,19 +250,19 @@ app.get('/siteurl.json', function (req, res) {
 
 
 app.get('/go', function (req, res) {
-    var site = getSite(req, res);
+    const site = getSite(req, res);
     if (site == null) {
         return;
     }
 
-    var vars = getVariables(req, res);
+    const vars = getVariables(req, res);
     if (vars == null) {
         return;
     }
 
     console.log("DEBUG: site=" + site + " data=" + JSON.stringify(vars));
 
-    var loc = share_urls[site].url_template(vars);
+    const loc = share_urls[site].url_template(vars);
 
     res.redirect(loc);
 
@@ -288,17 +281,23 @@ app.get('/go', function (req, res) {
     });
 });
 
-var listener = app.listen(process.env.PORT, function () {
-    console.log('Listening on port ' + listener.address().port);
+const listener = app.listen(process.env.PORT, function () {
+    console.log('Listening on port ' + JSON.stringify(listener.address()));
 });
 
 // brutal HACK to avoid having to do ${'TEXT'} in the templates
-var TEXT = 'TEXT';
-var URL = 'URL';
-var SUMMARY = 'SUMMARY';
-var IMAGE = 'IMAGE';
+const TEXT = 'TEXT';
+const URL = 'URL';
+const SUMMARY = 'SUMMARY';
+const IMAGE = 'IMAGE';
 
-var share_urls = {
+interface ShareSite {
+    name: string,
+    logo: string,
+    url_template: (...values:any[]) => string
+}
+
+const share_urls:{[key:string]:ShareSite} = {
     'facebook': {
         name: 'Facebook',
         logo: 'facebook',
