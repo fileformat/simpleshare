@@ -2,17 +2,54 @@
 // where your node app starts
 
 // init project
-import * as express from 'express';
+import * as Koa from 'koa';
+import * as KoaRouter from 'koa-router';
+import * as KoaStatic from 'koa-static';
+import * as KoaViews from 'koa-views';
 //import * as fs from 'fs';
 import * as os from 'os';
+import * as path from 'path';
 import * as request from 'request';
 
-const app = express();
+const app = new Koa();
 
+app.use(async(ctx, next) => {
+    try {
+        await next();
+        const status = ctx.status || 404;
+        if (status === 404) {
+            await ctx.render('404.hbs', { title: 'File not found (404)', url: ctx.request.url });
+        }
+    } catch (err) {
+        await ctx.render('500.hbs', { title: 'Server Error', message: err.message });
+    }
+});
 
-app.use(express.static('public'));
+app.use(KoaStatic("public"));
 
-function getStatus() {
+app.use(KoaViews(path.join(__dirname, '..', 'views'), {
+    map: { hbs: 'handlebars' },
+    options: {
+        helpers: {
+        },
+        partials: {
+            above: path.join(__dirname, '..', 'partials', 'above'),
+            below: path.join(__dirname, '..', 'partials', 'below')
+        }
+    }
+}));
+
+const rootRouter = new KoaRouter();
+
+rootRouter.get('/', async (ctx) => {
+    await ctx.render('index.hbs', { title: 'SimpleShare.IO - simple script-less social sharing', h1: 'SimpleShare.IO' });
+});
+
+rootRouter.get('/index.html', async (ctx) => {
+    await ctx.redirect('/');
+});
+
+rootRouter.get('/status.json', async (ctx: Koa.Context) => {
     const retVal: {[key:string]: any } = {};
 
     retVal["success"] = true;
@@ -46,9 +83,20 @@ function getStatus() {
     retVal["process.version"] = process.version;
     retVal["process.versions"] = process.versions;
 
-    return retVal;
+    sendJSON(ctx, retVal);
+});
+
+function sendJSON(ctx: Koa.Context, data: object) {
+
+    const callback = ctx.request.query['callback'];
+    if (callback && callback.match(/^[$A-Za-z_][0-9A-Za-z_$]*$/) != null) {
+        ctx.body = callback + '(' + JSON.stringify(data) + ');';
+    } else {
+        ctx.body = JSON.stringify(data);
+    }
 }
 
+/*
 app.get('/status.json', function (req, res) {
     res.writeHead(200, {
         "Content-Type": "text/plain",
@@ -57,27 +105,28 @@ app.get('/status.json', function (req, res) {
         'Access-Control-Max-Age': '604800'
     });
 
-    sendJson(req, res, getStatus());
+ sendJSON(req, res, getStatus());
 });
+*/
 
-function getVariables(req:express.Request, res:express.Response) {
+function getVariables(ctx: Koa.Context) {
     const result:{[key:string]: any} = {};
-    if ('url' in req.query == false) {
+    if ('url' in ctx.request.query == false) {
         result["success"] = false;
         result["code"] = 400;
         result["message"] = "Parameter 'url' is required";
-        sendJson(req, res, result);
+        sendJSON(ctx, result);
         return null;
     }
 
     // LATER: split off just filename?
-    const text = req.query["text"] || req.query["url"];
+    const text = ctx.request.query["text"] || ctx.request.query["url"];
 
-    const summary = req.query["summary"] || '';
+    const summary = ctx.request.query["summary"] || '';
 
-    const image = req.query["image"] || '';
+    const image = ctx.request.query["image"] || '';
 
-    result["URL"] = encodeURIComponent(req.query["url"]);
+    result["URL"] = encodeURIComponent(ctx.request.query["url"]);
     result["TEXT"] = encodeURIComponent(text);
     result["SUMMARY"] = encodeURIComponent(summary);
     result["IMAGE"] = encodeURIComponent(image);
@@ -85,22 +134,22 @@ function getVariables(req:express.Request, res:express.Response) {
     return result;
 }
 
-function getSite(req:express.Request, res:express.Response) {
+function getSite(ctx: Koa.Context) {
     const result:{[key:string]:any} = {};
-    if ('site' in req.query == false) {
+    if ('site' in ctx.request.query == false) {
         result["success"] = false;
         result["code"] = 400;
         result["message"] = "Parameter 'site' is required";
-        sendJson(req, res, result);
+        sendJSON(ctx, result);
         return null;
     }
 
-    const site = req.query["site"];
+    const site = ctx.request.query["site"];
     if (share_urls[site] == null) {
         result["success"] = false;
         result["code"] = 404;
         result["message"] = "Site '" + site + "' is not supported yet";
-        sendJson(req, res, result);
+        sendJSON(ctx, result);
         return null;
     }
 
@@ -120,20 +169,7 @@ function make_template(strings:TemplateStringsArray, ...keys:string[]) {
 }
 
 
-function sendJson(req:express.Request, res:express.Response, jsonObj:{[key:string]: any}) {
-    if ('callback' in req.query) {
-        res.write(req.query["callback"]);
-        res.write("(");
-        res.write(JSON.stringify(jsonObj));
-        res.write(");");
-    }
-    else {
-        res.write(JSON.stringify(jsonObj));
-    }
-    res.end();
-}
-
-function trackEvent(req:express.Request, ga_id:string | undefined, event:{[key:string]:string}) {
+function trackEvent(ctx: Koa.Context, ga_id:string | undefined, event:{[key:string]:string}) {
     if (!ga_id) {
         return;
     }
@@ -146,9 +182,9 @@ function trackEvent(req:express.Request, ga_id:string | undefined, event:{[key:s
     fields.ea = event.eventAction;
     fields.el = event.eventLabel;
     fields.ev = event.eventValue;
-    fields.ua = req.get('user-agent') || '(not set)';
-    if (req.ip) {
-        fields.uip = req.ip;
+    fields.ua = ctx.request.get('user-agent') || '(not set)';
+    if (ctx.request.ip) {
+        fields.uip = ctx.request.ip;
     }
 
     const formData:{[key:string]:string} = {};
@@ -168,8 +204,8 @@ function trackEvent(req:express.Request, ga_id:string | undefined, event:{[key:s
     if (event.eventValue) {
         formData.ev = event.eventValue;
     }
-    formData.ua = req.get('user-agent') || '(not set)';
-    formData.uip = req.ip || '0.0.0.0';
+    formData.ua = ctx.request.get('user-agent') || '(not set)';
+    formData.uip = ctx.request.ip || '0.0.0.0';
 
     request.post({
         url: "https://www.google-analytics.com/collect",
@@ -179,7 +215,7 @@ function trackEvent(req:express.Request, ga_id:string | undefined, event:{[key:s
     });
 }
 
-app.get('/sitelist.json', function (req, res) {
+rootRouter.get('/sitelist.json', function (ctx: Koa.Context) {
     const result:{[key:string]: any} = {};
 
     const sites = [];
@@ -203,11 +239,11 @@ app.get('/sitelist.json', function (req, res) {
     result["success"] = true;
     result["code"] = 0;
     result["message"] = result["sites"].length + " sites available";
-    sendJson(req, res, result);
+    sendJSON(ctx, result);
 });
 
-app.get('/siteinfo.json', function (req, res) {
-    const site = getSite(req, res);
+rootRouter.get('/siteinfo.json', function (ctx) {
+    const site = getSite(ctx);
     if (site == null) {
         return;
     }
@@ -223,16 +259,16 @@ app.get('/siteinfo.json', function (req, res) {
     if (share_urls[site].logo) {
         result.info.logo = "https://www.vectorlogo.zone/logos/" + share_urls[site].logo + "/" + share_urls[site].logo + "-tile.svg";
     }
-    sendJson(req, res, result);
+    sendJSON(ctx, result);
 });
 
-app.get('/siteurl.json', function (req, res) {
-    const site = getSite(req, res);
+rootRouter.get('/siteurl.json', function (ctx) {
+    const site = getSite(ctx);
     if (site == null) {
         return;
     }
 
-    const vars = getVariables(req, res);
+    const vars = getVariables(ctx);
     if (vars == null) {
         return;
     }
@@ -240,22 +276,22 @@ app.get('/siteurl.json', function (req, res) {
     const result:{[key:string]: any} = {};
 
     result["success"] = true;
-    result["message"] = "Link to '" + req.query["url"] + "' for " + share_urls[site].name;
+    result["message"] = "Link to '" + ctx.request.query["url"] + "' for " + share_urls[site].name;
     result["code"] = 0;
     result["site"] = site;
     result["url"] = share_urls[site].url_template(vars);
 
-    sendJson(req, res, result);
+    sendJSON(ctx, result);
 });
 
 
-app.get('/go', function (req, res) {
-    const site = getSite(req, res);
+rootRouter.get('/go', function (ctx) {
+    const site = getSite(ctx);
     if (site == null) {
         return;
     }
 
-    const vars = getVariables(req, res);
+    const vars = getVariables(ctx);
     if (vars == null) {
         return;
     }
@@ -264,24 +300,26 @@ app.get('/go', function (req, res) {
 
     const loc = share_urls[site].url_template(vars);
 
-    res.redirect(loc);
+    ctx.redirect(loc);
 
     //webmaster's tracking
-    trackEvent(req, req.query["ga"], {
+    trackEvent(ctx, ctx.request.query["ga"], {
         eventCategory: 'SHARE',
-        eventAction: req.query["site"],
-        eventValue: req.query["url"]
+        eventAction: ctx.request.query["site"],
+        eventValue: ctx.request.query["url"]
     });
 
     //simpleshare tracking
-    trackEvent(req, process.env.GA_ID, {
+    trackEvent(ctx, process.env.GA_ID, {
         eventCategory: 'SHARE',
-        eventAction: req.query["site"],
-        eventValue: req.query["url"]
+        eventAction: ctx.request.query["site"],
+        eventValue: ctx.request.query["url"]
     });
 });
 
-const listener = app.listen(process.env.PORT, function () {
+app.use(rootRouter.routes());
+
+const listener = app.listen(process.env.PORT || "4000", function () {
     console.log('Listening on port ' + JSON.stringify(listener.address()));
 });
 
