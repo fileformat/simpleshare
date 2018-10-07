@@ -2,6 +2,8 @@
   "name": "simpleshare.io",
   "version": "0.1.0",
   "description": "Support 'share' links for static sites without invasive tracking",
+  "license-actual-since-npm-does-not-follow-the-actual-spdx-spec": "AGPL-3.0-or-later",
+  "license": "AGPL-3.0",
   "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server.js",

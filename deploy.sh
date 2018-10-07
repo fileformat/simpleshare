@@ -16,10 +16,8 @@ else
 	sed -i -e "s/^COMMIT=.*$/COMMIT=$COMMIT/g" .env
 fi
 
-now list simpleshare.io
+TOKEN=$(cat ~/.now/auth.json | jq ".credentials[0].token" --raw-output)
+NAME=$(cat ./now.json | jq '.name' --raw-output)
+OLD_DEPLOY=$(curl "https://api.zeit.co/v2/now/deployments" --silent --show-error --header "Authorization: Bearer $TOKEN" | jq ".deployments[] | select(.name | contains(\"$NAME\")) | .url" --raw-output)
 
-# need to remove old one
-#now rm <URL>
-
-now --public --dotenv  && now alias
-
+now --public --dotenv && now alias && now rm $OLD_DEPLOY
