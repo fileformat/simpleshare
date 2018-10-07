@@ -3,24 +3,32 @@
 
 // init project
 import * as Koa from 'koa';
+import * as KoaPinoLogger from 'koa-pino-logger';
 import * as KoaRouter from 'koa-router';
 import * as KoaStatic from 'koa-static';
 import * as KoaViews from 'koa-views';
 //import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
+import * as Pino from 'pino';
 import * as request from 'request';
 
 const app = new Koa();
+
+const logger = Pino();
+
+app.use(KoaPinoLogger({ logger: logger }));
 
 app.use(async(ctx, next) => {
     try {
         await next();
         const status = ctx.status || 404;
         if (status === 404) {
+            ctx.log.warn( { url: ctx.request.url }, 'File not found');
             await ctx.render('404.hbs', { title: 'File not found (404)', url: ctx.request.url });
         }
     } catch (err) {
+        ctx.log.error( { err, url: ctx.request.url }, 'Server Error');
         await ctx.render('500.hbs', { title: 'Server Error', message: err.message });
     }
 });
@@ -210,8 +218,8 @@ function trackEvent(ctx: Koa.Context, ga_id:string | undefined, event:{[key:stri
     request.post({
         url: "https://www.google-analytics.com/collect",
         formData: formData
-    }, function (error, response, body) {
-        console.log("INFO: ga tracking for " + ga_id + " returned " + response.statusCode);
+    }, function (err, response, body) {
+        ctx.log.info({ err, response, body }, "Google Analytics result");
     });
 }
 
@@ -296,31 +304,29 @@ rootRouter.get('/go', function (ctx) {
         return;
     }
 
-    console.log("DEBUG: site=" + site + " data=" + JSON.stringify(vars));
+    ctx.log.debug( { site: site, data: vars }, 'Redirecting');
 
     const loc = share_urls[site].url_template(vars);
 
     ctx.redirect(loc);
 
-    //webmaster's tracking
-    trackEvent(ctx, ctx.request.query["ga"], {
+    const event = {
         eventCategory: 'SHARE',
-        eventAction: ctx.request.query["site"],
-        eventValue: ctx.request.query["url"]
-    });
+        eventAction: ctx.request.query['site'],
+        eventValue: ctx.request.query['url']
+    };
+
+    //webmaster's tracking
+    trackEvent(ctx, ctx.request.query['ga'], event);
 
     //simpleshare tracking
-    trackEvent(ctx, process.env.GA_ID, {
-        eventCategory: 'SHARE',
-        eventAction: ctx.request.query["site"],
-        eventValue: ctx.request.query["url"]
-    });
+    trackEvent(ctx, process.env.GA_ID, event);
 });
 
 app.use(rootRouter.routes());
 
 const listener = app.listen(process.env.PORT || "4000", function () {
-    console.log('Listening on port ' + JSON.stringify(listener.address()));
+    logger.info( { address: listener.address(), ga_id: process.env.GA_ID || '(not set)' }, 'Running');
 });
 
 // brutal HACK to avoid having to do ${'TEXT'} in the templates
