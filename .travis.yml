@@ -5,8 +5,8 @@ cache: npm
 install:
 - npm install -g now
 script: 
-- printf "LASTMOD=%s\n" $(date -u +%Y-%m-%dT%H:%M:%SZ)" > .env
-- printf "COMMIT=%s\n" $(git rev-parse --short HEAD)" > .env
+- printf "LASTMOD=%s\n" $(date -u +%Y-%m-%dT%H:%M:%SZ) > .env
+- printf "COMMIT=%s\n" $(git rev-parse --short HEAD) > .env
 - now --public --dotenv -e NODE_ENV=production -e GA_ID=$GA_ID --token $NOW_TOKEN
 after_script: 
 - npm run alias
