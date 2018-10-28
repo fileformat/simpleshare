@@ -14,6 +14,7 @@ import * as Pino from 'pino';
 import * as request from 'request';
 
 const app = new Koa();
+app.proxy = true;
 
 const logger = Pino();
 
@@ -176,29 +177,23 @@ function make_template(strings:TemplateStringsArray, ...keys:string[]) {
     });
 }
 
+function guid(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = Math.random() * 16 | 0;
+        const v = (c == 'x') ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 
 function trackEvent(ctx: Koa.Context, ga_id:string | undefined, event:{[key:string]:string}) {
     if (!ga_id) {
         return;
     }
-    const fields:{[key:string]:string} = {};
-    fields.v = '1';
-    fields.tid = ga_id;
-    fields.cid = '';    // anonymous client id
-    fields.t = 'event';
-    fields.ec = event.eventCategory;
-    fields.ea = event.eventAction;
-    fields.el = event.eventLabel;
-    fields.ev = event.eventValue;
-    fields.ua = ctx.request.get('user-agent') || '(not set)';
-    if (ctx.request.ip) {
-        fields.uip = ctx.request.ip;
-    }
 
     const formData:{[key:string]:string} = {};
     formData.v = '1';
     formData.tid = ga_id;
-    formData.cid = '';    // anonymous client id
+    formData.cid = guid();    // anonymous client id
     formData.t = 'event';
     if (event.eventCategory) {
         formData.ec = event.eventCategory;
@@ -207,19 +202,23 @@ function trackEvent(ctx: Koa.Context, ga_id:string | undefined, event:{[key:stri
         formData.ea = event.eventAction;
     }
     if (event.eventLabel) {
-        formData.el = event.eventLabel;
+        formData.el = event.eventLabel.substr(0, 500);
     }
     if (event.eventValue) {
         formData.ev = event.eventValue;
     }
     formData.ua = ctx.request.get('user-agent') || '(not set)';
-    formData.uip = ctx.request.ip || '0.0.0.0';
+    formData.uip = ctx.ip || '0.0.0.0';
 
     request.post({
-        url: "https://www.google-analytics.com/collect",
-        formData: formData
+        url: "https://www.google-analytics.com/debug/collect",
+        form: formData
     }, function (err, response, body) {
-        ctx.log.info({ err, response, body }, "Google Analytics result");
+        if (err) {
+            ctx.log.error({ err, response, ga_id, formData, body }, "Google Analytics failed");
+        } else {
+            ctx.log.info({ ga_id, formData, body }, "Google Analytics success");
+        }
     });
 }
 
@@ -304,7 +303,7 @@ rootRouter.get('/go', function (ctx) {
         return;
     }
 
-    ctx.log.debug( { site: site, data: vars }, 'Redirecting');
+    ctx.log.info( { site: site, data: vars }, 'Redirecting');
 
     const loc = share_urls[site].url_template(vars);
 
@@ -312,8 +311,8 @@ rootRouter.get('/go', function (ctx) {
 
     const event = {
         eventCategory: 'SHARE',
-        eventAction: ctx.request.query['site'],
-        eventValue: ctx.request.query['url']
+        eventAction: ctx.request.query["site"],
+        eventLabel: ctx.request.query["url"]
     };
 
     //webmaster's tracking

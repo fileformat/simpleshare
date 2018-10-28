@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -o errexit
+set -o pipefail
+set -o nounset
+
 LASTMOD=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 grep -q "^LASTMOD=" .env
 if [ $? -ne 0 ]; then
