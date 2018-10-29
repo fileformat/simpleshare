@@ -1,7 +1,6 @@
-<img alt="SimpleShare Logo" src="https://www.vectorlogo.zone/logos/simpleshareio/simpleshareio-tile.svg" height="96" >
 
-SimpleShareIO &middot; ![Travis CI build status](https://img.shields.io/travis/fileformat/simpleshare.svg?style=flat-square)
-============
+# SimpleShareIO [<img alt="SimpleShare Logo" src="https://www.vectorlogo.zone/logos/simpleshareio/simpleshareio-tile.svg" height="96" align="right" />](https://simpleshare.io/)
+[![Travis CI build status](https://img.shields.io/travis/fileformat/simpleshare.svg?style=flat-square)](https://travis-ci.org/fileformat/simpleshare)
 
 [SimpleShare.IO](https://simpleshare.io/) is a simple site to redirect to one of the social sharing sites.  It is really just so I don't have to use a third-party service that bloats my pages with a ton of Javascript and tracks my viewers.
 
