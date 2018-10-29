@@ -10,7 +10,7 @@ script:
 - 'PREVIOUS_DEPLOYMENT=$(curl "https://api.zeit.co/v2/now/deployments" --silent --show-error --header "Authorization: Bearer $NOW_TOKEN" | jq ".deployments[] | select(.name | contains(\"simpleshare\")) | .url" --raw-output)'
 - 'now --public --dotenv -e NODE_ENV=production -e GA_ID=$GA_ID --token $NOW_TOKEN'
 after_script: 
-- now alias
+- now alias --token=$NOW_TOKEN
 - now rm --yes --token=$NOW_TOKEN $PREVIOUS_DEPLOYMENT
 env:
   global:
