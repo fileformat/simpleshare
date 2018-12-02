@@ -5,9 +5,7 @@ cache: npm
 install:
 - npm install -g now
 script: 
-- 'printf "LASTMOD=%s\n" $(date -u +%Y-%m-%dT%H:%M:%SZ) > .env'
-- 'printf "COMMIT=%s\n" $(git rev-parse --short HEAD) >> .env'
-- 'now --public --dotenv -e NODE_ENV=production -e GA_ID=$GA_ID --token $NOW_TOKEN'
+- 'now --public -e LASTMOD=$(date -u +%Y-%m-%dT%H:%M:%SZ) -e COMMIT=$(git rev-parse --short HEAD) -e NODE_ENV=production -e GA_ID=$GA_ID --token $NOW_TOKEN'
 after_script: 
 - now alias --token=$NOW_TOKEN
 - now rm simpleshare.io --yes --safe --token=$NOW_TOKEN
