@@ -98,10 +98,16 @@ rootRouter.get('/status.json', async (ctx: Koa.Context) => {
 
 function sendJSON(ctx: Koa.Context, data: object) {
 
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.set('Access-Control-Allow-Methods', 'POST, GET');
+    ctx.set('Access-Control-Max-Age', '604800');
+
     const callback = ctx.request.query['callback'];
     if (callback && callback.match(/^[$A-Za-z_][0-9A-Za-z_$]*$/) != null) {
+        ctx.type = 'text/javascript';
         ctx.body = callback + '(' + JSON.stringify(data) + ');';
     } else {
+        ctx.type = 'application/json';
         ctx.body = JSON.stringify(data);
     }
 }
