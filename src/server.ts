@@ -66,6 +66,7 @@ rootRouter.get('/status.json', async (ctx: Koa.Context) => {
     retVal["timestamp"] = new Date().toISOString();
     retVal["lastmod"] = process.env.LASTMOD || null;
     retVal["commit"] = process.env.COMMIT || null;
+    retVal["tech"] = "NodeJS " + process.version;
     retVal["GA_ID"] = process.env.GA_ID || '(not set)';
     retVal["targetcount"] = Object.keys(share_urls).length;
     retVal["__dirname"] = __dirname;
