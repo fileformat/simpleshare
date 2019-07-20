@@ -4,5 +4,6 @@
     "features": {
         "cloud": "v2"
     },
-    "type": "docker"
+    "type": "docker",
+	"version": 1
 }
