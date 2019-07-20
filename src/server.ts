@@ -20,6 +20,12 @@ const logger = Pino();
 
 app.use(KoaPinoLogger({ logger: logger }));
 
+app.use( (ctx, next) => {
+    ctx.res.setHeader('Report-To', '{ "group": "default", "max_age": 31536000, "endpoints": [{ "url": "https://fileformat.report-uri.com/a/d/g" }], "include_subdomains": true }');
+    ctx.res.setHeader('NEL', '{ "report_to": "default", "max_age": 31536000, "include_subdomains": true }');
+    next();
+});
+
 app.use(async(ctx, next) => {
     try {
         await next();
