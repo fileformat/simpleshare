@@ -1,13 +1,15 @@
 To Do
 =====
 
+ - [ ] lastmod and commit aren't working
+
 Features
 --------
- - [ ] force domain to simpleshare.io
+ - [x] force domain to simpleshare.io
  - [ ] robot filter (captcha?)
  - [ ] 'pretty' option for json
- - [ ] content-type's for json
- - [ ] callback should be valid js function name
+ - [x] content-type's for json
+ - [x] callback should be valid js function name
 
 Non-site Links
 --------------

@@ -20,13 +20,23 @@ const logger = Pino();
 
 app.use(KoaPinoLogger({ logger: logger }));
 
-app.use( (ctx, next) => {
+app.use( async (ctx, next) => {
+    ctx.res.setHeader("Referrer-Policy", "unsafe-url");
+    if (ctx.hostname != 'localhost') {
+        ctx.res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+    }
+    ctx.res.setHeader("X-Content-Type-Options", "nosniff");
+    ctx.res.setHeader("X-Frame-Options", "SAMEORIGIN");
+    ctx.res.setHeader("X-XSS-Protection", "1; mode=block");
+    /*
+     * I already have the max free domains at report-uri
     ctx.res.setHeader('Report-To', '{ "group": "default", "max_age": 31536000, "endpoints": [{ "url": "https://fileformat.report-uri.com/a/d/g" }], "include_subdomains": true }');
     ctx.res.setHeader('NEL', '{ "report_to": "default", "max_age": 31536000, "include_subdomains": true }');
-    next();
+     */
+    await next();
 });
 
-app.use(async(ctx, next) => {
+app.use( async (ctx, next) => {
     try {
         await next();
         const status = ctx.status || 404;

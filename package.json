@@ -20,7 +20,7 @@
     "request": "^2.83.0"
   },
   "engines": {
-    "node": "8.1.4"
+    "node": "10"
   },
   "repository": {
     "url": "https://www.github.com/fileformat/simpleshare"
