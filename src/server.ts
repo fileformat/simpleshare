@@ -50,7 +50,7 @@ app.use( async (ctx, next) => {
     }
 });
 
-app.use(KoaStatic("public"));
+app.use(KoaStatic("public", { maxage: 24 * 60 * 60 * 1000 }));
 
 app.use(KoaViews(path.join(__dirname, '..', 'views'), {
     map: { hbs: 'handlebars' },

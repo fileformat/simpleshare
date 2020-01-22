@@ -16,10 +16,10 @@ Hey, script-less means in works in README files, so go ahead and share a link to
 
 Share:
 <a href="https://simpleshare.io/go?site=facebook&amp;url=https%3A%2F%2Fsimpleshare.io%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on facebook" src="https://www.vectorlogo.zone/logos/facebook/facebook-tile.svg" height="24" /></a>
-<a href="https://simpleshare.io/go?site=hn&amp;url=https%3A%2F%2Fwsimpleshare.io%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on hacker news" src="https://www.vectorlogo.zone/logos/ycombinator/ycombinator-tile.svg" height="24" /></a>
+<a href="https://simpleshare.io/go?site=hn&amp;url=https%3A%2F%2Fsimpleshare.io%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on hacker news" src="https://www.vectorlogo.zone/logos/ycombinator/ycombinator-tile.svg" height="24" /></a>
 <a href="https://simpleshare.io/go?site=pinboard&amp;url=https%3A%2F%2Fsimpleshare.io%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on pinboard" src="https://www.vectorlogo.zone/logos/pinboard/pinboard-tile.svg" height="24" v/></a>
 <a href="https://simpleshare.io/go?site=reddit&amp;url=https%3A%2F%2Fsimpleshare.io%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on reddit" src="https://www.vectorlogo.zone/logos/reddit/reddit-tile.svg" height="24" /></a>
-<a href="https://simpleshare.io/go?site=twitter&amp;url=https%3A%2F%2Fsimpleshare.io%2F&amp;text=VSimple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on twitter" src="https://www.vectorlogo.zone/logos/twitter/twitter-tile.svg" height="24" /></a>
+<a href="https://simpleshare.io/go?site=twitter&amp;url=https%3A%2F%2Fsimpleshare.io%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on twitter" src="https://www.vectorlogo.zone/logos/twitter/twitter-tile.svg" height="24" /></a>
 
 ## Running
 
