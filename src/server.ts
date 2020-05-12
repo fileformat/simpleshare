@@ -235,7 +235,7 @@ function trackEvent(ctx: Koa.Context, ga_id:string | undefined, event:{[key:stri
     formData.uip = ctx.ip || '0.0.0.0';
 
     request.post({
-        url: "https://www.google-analytics.com/debug/collect",
+        url: "https://www.google-analytics.com/collect",
         form: formData
     }, function (err, response, body) {
         if (err) {
