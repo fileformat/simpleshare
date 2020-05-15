@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:8 as base
+FROM mhart/alpine-node:10 as base
 RUN apk update && apk upgrade && apk add --no-cache \
     bash \
     git \
