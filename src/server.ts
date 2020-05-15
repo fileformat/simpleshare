@@ -13,6 +13,8 @@ import * as path from 'path';
 import * as Pino from 'pino';
 import * as request from 'request';
 
+type KoaContext = Koa.ParameterizedContext<any, KoaRouter.IRouterParamContext<any, {}>>;
+
 const app = new Koa();
 app.proxy = true;
 
@@ -74,7 +76,7 @@ rootRouter.get('/index.html', async (ctx) => {
     await ctx.redirect('/');
 });
 
-rootRouter.get('/status.json', async (ctx: Koa.Context) => {
+rootRouter.get('/status.json', async (ctx) => {
     const retVal: {[key:string]: any } = {};
 
     retVal["success"] = true;
@@ -113,7 +115,7 @@ rootRouter.get('/status.json', async (ctx: Koa.Context) => {
     sendJSON(ctx, retVal);
 });
 
-function sendJSON(ctx: Koa.Context, data: object) {
+function sendJSON(ctx: KoaContext, data: object) {
 
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.set('Access-Control-Allow-Methods', 'POST, GET');
@@ -142,7 +144,7 @@ app.get('/status.json', function (req, res) {
 });
 */
 
-function getVariables(ctx: Koa.Context) {
+function getVariables(ctx: KoaContext) {
     const result:{[key:string]: any} = {};
     if ('url' in ctx.request.query == false) {
         result["success"] = false;
@@ -167,7 +169,7 @@ function getVariables(ctx: Koa.Context) {
     return result;
 }
 
-function getSite(ctx: Koa.Context) {
+function getSite(ctx: KoaContext) {
     const result:{[key:string]:any} = {};
     if ('site' in ctx.request.query == false) {
         result["success"] = false;
@@ -209,7 +211,7 @@ function guid(): string {
     });
 }
 
-function trackEvent(ctx: Koa.Context, ga_id:string | undefined, event:{[key:string]:string}) {
+function trackEvent(ctx: KoaContext, ga_id:string | undefined, event:{[key:string]:string}) {
     if (!ga_id) {
         return;
     }
@@ -239,14 +241,14 @@ function trackEvent(ctx: Koa.Context, ga_id:string | undefined, event:{[key:stri
         form: formData
     }, function (err, response, body) {
         if (err) {
-            ctx.log.error({ err, response, ga_id, formData, body }, "Google Analytics failed");
+            logger.error({ err, response, ga_id, formData, body }, "Google Analytics failed");
         } else {
-            ctx.log.info({ ga_id, formData, body }, "Google Analytics success");
+            logger.info({ ga_id, formData, body }, "Google Analytics success");
         }
     });
 }
 
-rootRouter.get('/sitelist.json', function (ctx: Koa.Context) {
+rootRouter.get('/sitelist.json', function (ctx) {
     const result:{[key:string]: any} = {};
 
     const sites = [];
@@ -327,7 +329,7 @@ rootRouter.get('/go', function (ctx) {
         return;
     }
 
-    ctx.log.info( { site: site, data: vars }, 'Redirecting');
+    logger.info( { site: site, data: vars }, 'Redirecting');
 
     const loc = share_urls[site].url_template(vars);
 

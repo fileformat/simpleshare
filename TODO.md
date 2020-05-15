@@ -1,45 +1,46 @@
-To Do
-=====
+# To Do
 
- - [ ] lastmod and commit aren't working
+- [ ] purge now.sh/logwatch.sh/.travis.yml
+- [ ] universal analytics
+- [ ] remove client-side js
+- [ ] builder page for HTML/markdown
+- [ ] use handlebars for template strings
+- [ ] move from AppEngine to GCR
 
-Features
---------
- - [x] force domain to simpleshare.io
- - [ ] robot filter (captcha?)
- - [ ] 'pretty' option for json
- - [x] content-type's for json
- - [x] callback should be valid js function name
+## Features
 
-Non-site Links
---------------
- - [ ] clipboard
- - [ ] email
- - [ ] printer
+- [ ] 'pretty' option for json
+- [ ] link to a metadata checker
 
-More Sites
-----------
- - [ ] BufferApp
- - [ ] digg [url](http://www.digg.com/submit?url=URL&title=TEXT)
- - [ ] Disqus
- - [ ] Facebook Messenger
- - [ ] LINE
- - [ ] facebook messenger
- - [ ] github gist
- - [ ] gmail
- - [ ] Kakao Talk
- - [ ] print
- - [ ] qzone
- - [ ] Signal
- - [ ] Skype
- - [ ] Slack
- - [ ] SnapChat
- - [ ] Stack Overflow
- - [ ] Trello
- - [ ] wechat
- - [ ] Wire
- - [ ] Yammer
- - [ ] youtube
- - [Social bookmark list on Wikipedia](https://en.wikipedia.org/wiki/List_of_social_bookmarking_websites)
- - [Social network list on Wikipedia](https://en.wikipedia.org/wiki/List_of_social_networking_websites)
+## Non-site Links
+
+- [ ] clipboard
+- [ ] email
+- [ ] printer
+
+## More Sites
+
+- [ ] BufferApp
+- [ ] digg [url](http://www.digg.com/submit?url=URL&title=TEXT)
+- [ ] Disqus
+- [ ] Facebook Messenger
+- [ ] github gist
+- [ ] gmail
+- [ ] Kakao Talk
+- [ ] LINE
+- [ ] print
+- [ ] qzone
+- [ ] Signal
+- [ ] Skype
+- [ ] Slack
+- [ ] SnapChat
+- [ ] Stack Overflow
+- [ ] Trello
+- [ ] wechat
+- [ ] Wire
+- [ ] Yammer
+- [ ] youtube
+
+[Social bookmark list on Wikipedia](https://en.wikipedia.org/wiki/List_of_social_bookmarking_websites)
+[Social network list on Wikipedia](https://en.wikipedia.org/wiki/List_of_social_networking_websites)
 

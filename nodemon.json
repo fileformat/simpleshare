@@ -1,0 +1,19 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    "node_modules",
+    "tmp"
+  ],
+  "verbose": true,
+  "watch": [
+    "data/",
+    "partials/",
+    "src/"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "exec": "tsc && yarn run start | npx pino-pretty",
+  "ext": "csv,hbs,json,ts,yaml"
+}

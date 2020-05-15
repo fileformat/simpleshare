@@ -3,6 +3,10 @@
 # deploy to gcloud appengine
 #
 
+set -o errexit
+set -o pipefail
+set -o nounset
+
 cat app.yaml \
     | jq --sort-keys ".env_variables.LASTMOD|=\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"|.env_variables.COMMIT|=\"$(git rev-parse --short HEAD)\"" \
     | ex -sc 'wq!app.yaml' /dev/stdin

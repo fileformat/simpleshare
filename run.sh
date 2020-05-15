@@ -1,8 +1,24 @@
 #!/bin/bash
 #
-# run locally
+# run locally for dev
 #
 
-#nvm use 8
-export $(cat .env)
-npx tsc && npm start | npx pino-pretty
+set -o errexit
+set -o pipefail
+set -o nounset
+
+#
+# load an .env file if it exists
+#
+ENV_FILE="${1:-./.env}"
+if [ -f "${ENV_FILE}" ]; then
+    echo "INFO: loading '${ENV_FILE}'!"
+    export $(cat "${ENV_FILE}")
+fi
+
+#
+# run in watch mode
+#
+./node_modules/.bin/nodemon
+
+
