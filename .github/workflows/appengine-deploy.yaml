@@ -1,4 +1,4 @@
-name: Build and deploy to Google AppEngine
+name: build
 
 on:
   push:

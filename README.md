@@ -1,7 +1,7 @@
 
-# SimpleShareIO [<img alt="SimpleShare Logo" src="https://www.vectorlogo.zone/logos/simpleshareio/simpleshareio-tile.svg" height="96" align="right" />](https://simpleshare.io/)
+# SimpleShare.io [<img alt="SimpleShare.io Logo" src="https://www.vectorlogo.zone/logos/simpleshareio/simpleshareio-tile.svg" height="96" align="right" />](https://simpleshare.io/)
 [![# of images](https://img.shields.io/badge/dynamic/json.svg?style=flat-square&label=Social+sites&url=https%3A%2F%2Fsimpleshare.io%2Fstatus.json&query=%24.targetcount)](https://simpleshare.io/)
-[![Travis CI build status](https://img.shields.io/travis/fileformat/simpleshare.svg?style=flat-square)](https://travis-ci.org/fileformat/simpleshare)
+[![Github Action build status](https://github.com/VectorLogoZone/logosearch/workflows/build/badge.svg)](https://github.com/fileformat/simpleshare/actions)
 [![AGPLv3](https://img.shields.io/github/license/fileformat/simpleshare.svg?style=flat-square)](LICENSE.txt)
 
 [SimpleShare.IO](https://simpleshare.io/) is a simple site to redirect to one of the social sharing sites.  It is really just so I don't have to use a third-party service that bloats my pages with a ton of Javascript and tracks my viewers.
@@ -21,9 +21,18 @@ Share:
 <a href="https://simpleshare.io/go?site=reddit&amp;url=https%3A%2F%2Fsimpleshare.io%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on reddit" src="https://www.vectorlogo.zone/logos/reddit/reddit-tile.svg" height="24" /></a>
 <a href="https://simpleshare.io/go?site=twitter&amp;url=https%3A%2F%2Fsimpleshare.io%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on twitter" src="https://www.vectorlogo.zone/logos/twitter/twitter-tile.svg" height="24" /></a>
 
-## Running
+## Using
 
-It is a simple node.js app.  `npm install` and then `npm start`.
+Follow the instructions in the [FAQ](https://simpleshare.io/).
+
+## Running your own copy
+
+It is a simple node.js app:
+
+```bash
+yarn install
+yarn run start
+```
 
 If you want to send an event to Google Analytics for every hit, set the `GA_ID` environment variable to your GA property ID.
 
