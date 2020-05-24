@@ -69,11 +69,41 @@ app.use(KoaViews(path.join(__dirname, '..', 'views'), {
 const rootRouter = new KoaRouter();
 
 rootRouter.get('/', async (ctx) => {
-    await ctx.render('index.hbs', { title: 'SimpleShare.IO - simple script-less social sharing', h1: 'SimpleShare.IO' });
+
+    const sites:any[] = [];
+
+    const shareUrl = "https://simpleshare.io/";
+    const shareText = "Simple script-less share buttons";
+    const shareSummary = "The most awesome-est way to share!!!"
+
+    const keys = Object.keys(share_urls);
+    for (let loop = 0; loop < keys.length; loop++) {
+        const site = share_urls[keys[loop]];
+
+        sites.push({
+            id: keys[loop],
+            logolink: "https://www.vectorlogo.zone/logos/" + site.logo + "/index.html",
+            logo: "https://www.vectorlogo.zone/logos/" + site.logo + "/" + site.logo + "-tile.svg",
+            name: site.name, 
+            test: `https://simpleshare.io/go?site=${keys[loop]}&url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}&summary=${encodeURIComponent(shareSummary)}`,
+        });
+    }
+
+    await ctx.render('index.hbs', { 
+        sites,
+        title: 'SimpleShare.IO - simple script-less social sharing', 
+        hideh2: true
+    });
 });
 
 rootRouter.get('/index.html', async (ctx) => {
     await ctx.redirect('/');
+});
+
+rootRouter.get("/linkbuilder.html", async(ctx) => {
+    await ctx.render('linkbuilder.hbs', {
+        title: 'Link Builder',
+    });
 });
 
 rootRouter.get('/status.json', async (ctx) => {

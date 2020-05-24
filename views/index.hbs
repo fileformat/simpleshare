@@ -1,99 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>SimpleShare.IO - simple script-less social sharing</title>
-    <meta name="google-site-verification" content="_h1MxgiRHa93duDgu7VbDBgSXlXqPshOhp6uS82fQdo"/>
-    <meta name="msvalidate.01" content="E90DBA4A9D3D37F1056E64E5604A7A0D"/>
-    <meta name="yandex-verification" content="19286758bf144d3d"/>
-    <script>
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-        ga('create', 'UA-328425-45', 'auto');
-        ga('send', 'pageview');
-
-    </script>
-
-
-    <meta name="referrer" content="always" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="stylesheet" href="https://cdn.shoelace.style/1.0.0-beta24/shoelace.css"/>
-    <style>
-        h1 {
-            font-weight: bold;
-            color: #1c73ff;
-            margin-top: 12px;
-        }
-
-        .q {
-            font-weight: bold;
-            margin-top: 1.25rem;
-            margin-bottom: 0.25rem
-        }
-
-        .a {
-            margin-bottom: 0.25rem;
-        }
-        .iconcell {
-            text-align: center;
-        }
-    </style>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.shoelace.style/1.0.0-beta24/shoelace.js"></script>
-    <script>
-        function loadSites() {
-            $.get({
-                url: 'sitelist.json', dataType: 'json', success: function (data) {
-                    $("#sitelist").empty();
-                    var sites = data.sites;
-                    for (var loop = 0; loop < sites.length; loop++) {
-                        $("#sitelist").append($("<tr>")
-                            .append($("<td>").addClass("iconcell")
-                                .append($("<a>").attr("href", sites[loop].logolink)
-                                    .append($("<img>").attr("src", sites[loop].logo).css("height", "24pt").css("width", "24pt")/* .css("padding-right", "10px") */))
-                            )
-                            .append($("<td>").addClass("hide-sm-down")
-                                .append($("<span>").text(sites[loop].name)))
-                            .append($("<td>")
-                                .append($("<span>").text(sites[loop].id)))
-                            .append($("<td>")
-                                .append($("<a>").attr("href", "/go?site=" + sites[loop].id
-                                    + "&url=" + encodeURIComponent("https://simpleshare.io/")
-                                    + "&text=" + encodeURIComponent("Simple script-less share buttons")
-                                    + "&summary=" + encodeURIComponent("The most awesome-est way to share!!!")
-                                    + "&image=" + encodeURIComponent("https://www.vectorlogo.zone/logos/simpleshareio/simpleshareio-card.png"))
-                                    .text("Share on " + sites[loop].name)
-                                )
-                            )
-                        );
-                    }
-                }
-            })
-        }
-
-        $(document).ready(loadSites);
-
-    </script>
-</head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h1>
-                <img src="/favicon.svg" style="width:24pt;height:24pt;margin-top:-4pt;"/>
-                SimpleShare.IO
-            </h1>
+{{>above}}
             <p class="subtitle">
                 Simple script-less share buttons
             </p>
@@ -111,6 +16,7 @@
                 How do I use it?
             </p>
             <p class="a">
+                <!-- You can use the <a class="button" href="/linkbuilder.html">link builder</a> or DIY: -->
                 Embed a link to <code>https://simpleshare.io/go</code> with the correct parameters:
             <table class="table-striped table-bordered">
                 <thead>
@@ -170,9 +76,14 @@
                 </tr>
                 </thead>
                 <tbody id="sitelist">
+            {{#each sites}}
                 <tr>
-                    <td colspan="3">Loading...</td>
+                    <td class="iconcell"><a href="{{this.logolink}}"><img src="{{this.logo}}" style="height:24pt;padding-right:10px;" /></a></td>
+                    <td class="hide-sm-down">{{this.name}}</td>
+                    <td>{{this.id}}</td>
+                    <td><a href="{{this.test}}" rel="nofollow">Share on {{this.name}}</a></td>
                 </tr>
+            {{/each}}
                 </tbody>
             </table>
 
