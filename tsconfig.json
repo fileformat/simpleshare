@@ -2,6 +2,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "alwaysStrict": true,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
     "noEmitOnError": true,
@@ -10,6 +11,7 @@
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "outDir": "dist",
+    "resolveJsonModule": true,
     "sourceMap": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,

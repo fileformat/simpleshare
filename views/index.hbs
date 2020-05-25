@@ -16,7 +16,7 @@
                 How do I use it?
             </p>
             <p class="a">
-                <!-- You can use the <a class="button" href="/linkbuilder.html">link builder</a> or DIY: -->
+                You can use the <a class="button" href="/linkbuilder.html">link builder</a> or DIY:
                 Embed a link to <code>https://simpleshare.io/go</code> with the correct parameters:
             <table class="table-striped table-bordered">
                 <thead>
@@ -78,10 +78,10 @@
                 <tbody id="sitelist">
             {{#each sites}}
                 <tr>
-                    <td class="iconcell"><a href="{{this.logolink}}"><img src="{{this.logo}}" style="height:24pt;padding-right:10px;" /></a></td>
+                    <td class="iconcell"><a href="{{this.logo_link}}"><img src="{{this.logo_url}}" style="height:24pt;padding-right:10px;" /></a></td>
                     <td class="hide-sm-down">{{this.name}}</td>
                     <td>{{this.id}}</td>
-                    <td><a href="{{this.test}}" rel="nofollow">Share on {{this.name}}</a></td>
+                    <td><a href="https://simpleshare.io/go?site={{this.id}}&url={{encodeURIComponent ../shareUrl}}&text={{encodeURIComponent ../shareText}}&summary={{encodeURIComponent ../shareSummary}}" rel="nofollow">Share on {{this.name}}</a></td>
                 </tr>
             {{/each}}
                 </tbody>

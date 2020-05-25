@@ -1,0 +1,98 @@
+[    
+    {
+        "id": "facebook",
+        "name": "Facebook",
+        "logo": "facebook",
+        "template": "https://facebook.com/sharer/sharer.php?u={{{URL}}}"
+    },
+    {
+        "id": "googleplus",
+        "name": "Google+",
+        "logo": "google_plus",
+        "template": "https://plus.google.com/share?url={{{URL}}}"
+    },
+    {
+        "id": "hn",
+        "name": "Hacker News",
+        "logo": "ycombinator",
+        "template": "https://news.ycombinator.com/submitlink?u={{{URL}}}&t={{{TEXT}}}"
+    },
+    {
+        "id": "linkedin",
+        "name": "LinkedIn",
+        "logo": "linkedin",
+        "template": "https://www.linkedin.com/shareArticle?mini=true&url={{{URL}}}&title={{{TEXT}}}&summary={{{TEXT}}}&source={{{URL}}}"
+    },
+    {  
+        "id": "pinboard",
+        "name": "Pinboard",
+        "logo": "pinboard",
+        "template": "https://pinboard.in/add?next=same&url={{{URL}}}&description={{{SUMMARY}}}&title={{{TEXT}}}"
+    },
+    {
+        "id": "pinterest",
+        "name": "Pinterest",
+        "logo": "pinterest",
+        "template": "https://pinterest.com/pin/create/button/?url={{{URL}}}&media={{{IMAGE}}}&summary={{{TEXT}}}"
+    },
+    {
+        "id": "pocket",
+        "name": "Pocket",
+        "logo": "getpocket",
+        "template": "https://getpocket.com/save?url={{{URL}}}&title={{{TEXT}}}"
+    },
+    {
+        "id": "reddit",
+        "name": "Reddit",
+        "logo": "reddit",
+        "template": "https://reddit.com/submit/?url={{{URL}}}"
+    },
+    {
+        "id": "stumbleupon",
+        "name": "StumbleUpon",
+        "logo": "stumbleupon",
+        "template": "http://www.stumbleupon.com/submit?url={{{URL}}}&title={{{TEXT}}}"
+    },
+    {  
+        "id": "telegram",
+        "name": "Telegram",
+        "logo": "telegram",
+        "template": "https://telegram.me/share/url?text={{{TEXT}}}&url={{{URL}}}"
+    },
+    {
+        "id": "tumblr",
+        "name": "Tumblr",
+        "logo": "tumblr",
+        "template": "https://www.tumblr.com/widgets/share/tool?posttype=link&title={{{TEXT}}}&caption={{{TEXT}}}&content={{{URL}}}&canonicalUrl={{{URL}}}&shareSource=tumblr_share_button"
+    },
+    {
+        "id": "twitter",
+        "name": "Twitter",
+        "logo": "twitter",
+        "template": "https://twitter.com/intent/tweet/?text={{{TEXT}}}&url={{{URL}}}"
+    },
+    {  
+        "id": "vk",
+        "name": "VK",
+        "logo": "vk",
+        "template": "http://vk.com/share.php?url={{{URL}}}&title={{{TEXT}}}"
+    },
+    {
+        "id": "whatsapp",
+        "name": "WhatsApp",
+        "logo": "whatsapp",
+        "template": "whatsapp://send?text={{{TEXT}%20{{{URL}}}"
+    },
+    {
+        "id": "wordpress",
+        "name": "Wordpress",
+        "logo": "wordpress",
+        "template": "https://wordpress.com/press-this.php?u={{{URL}}}&t={{{TEXT}}}&s={{{SUMMARY}}}&i={{{IMAGE}}}"
+    },
+    {
+        "id": "xing",
+        "name": "XING",
+        "logo": "xing",
+        "template": "https://www.xing.com/app/user?op=share;url={{{URL}}};title={{{TEXT}}}"
+    }
+]

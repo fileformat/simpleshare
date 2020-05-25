@@ -1,0 +1,33 @@
+{{> above}}
+{{#if results}}
+<h3>Preview</h3>
+{{{results}}}
+<h3>HTML</h3>
+<!--LATER: clipboard -->
+<textarea>{{results}}</textarea>
+{{else}}
+<div class="alert alert-info">Build links for social sharing without privacy violations or page bloat or performance slow</div>
+{{/if}}
+<form method="GET" action="/linkbuilder.html">
+    <div class="input-field">
+        <label>URL (required)</label>
+        <input type="text" name="url" value="{{url}}" />
+    </div>
+    <div class="input-field">
+        <label>Text (optional)</label>
+        <input type="text" name="text" value="{{text}}" />
+    </div>
+    <div class="input-field">
+        <label>Social sites</label>
+    </div>
+{{#each sites}}
+    <div class="input-field">
+        <label>
+            <input type="checkbox" {{#if (ischecked this.id ../checks)}}checked {{/if}}name="site" value="{{this.id}}"/>
+            <img src="{{this.logo_url}}" alt="{{this.name}}" style="height:24pt;padding-right:10px;padding-left:15px;"/> {{this.name}}
+        </label>
+    </div>
+{{/each}}
+    <input class="button" type="submit" value="Build it!" />
+</form>
+{{> below}}

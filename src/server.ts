@@ -2,16 +2,20 @@
 // where your node app starts
 
 // init project
-import * as Koa from 'koa';
-import * as KoaPinoLogger from 'koa-pino-logger';
-import * as KoaRouter from 'koa-router';
-import * as KoaStatic from 'koa-static';
-import * as KoaViews from 'koa-views';
+import axios from 'axios';
+import Koa from 'koa';
+import KoaPinoLogger from 'koa-pino-logger';
+import KoaRouter from 'koa-router';
+import KoaStatic from 'koa-static';
+import KoaViews from 'koa-views';
 //import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import * as Pino from 'pino';
-import * as request from 'request';
+import Pino from 'pino';
+
+import { linkBuilder } from './linkbuilder';
+import * as sites from './sites';
+import * as templates from './templates';
 
 type KoaContext = Koa.ParameterizedContext<any, KoaRouter.IRouterParamContext<any, {}>>;
 
@@ -58,6 +62,12 @@ app.use(KoaViews(path.join(__dirname, '..', 'views'), {
     map: { hbs: 'handlebars' },
     options: {
         helpers: {
+            'encodeURIComponent': function (a: any) {
+                return encodeURIComponent(a)
+            },
+            'ischecked': function(value:string, checks:string[]) {
+                return checks && checks.indexOf(value) != -1;
+            }
         },
         partials: {
             above: path.join(__dirname, '..', 'partials', 'above'),
@@ -69,28 +79,11 @@ app.use(KoaViews(path.join(__dirname, '..', 'views'), {
 const rootRouter = new KoaRouter();
 
 rootRouter.get('/', async (ctx) => {
-
-    const sites:any[] = [];
-
-    const shareUrl = "https://simpleshare.io/";
-    const shareText = "Simple script-less share buttons";
-    const shareSummary = "The most awesome-est way to share!!!"
-
-    const keys = Object.keys(share_urls);
-    for (let loop = 0; loop < keys.length; loop++) {
-        const site = share_urls[keys[loop]];
-
-        sites.push({
-            id: keys[loop],
-            logolink: "https://www.vectorlogo.zone/logos/" + site.logo + "/index.html",
-            logo: "https://www.vectorlogo.zone/logos/" + site.logo + "/" + site.logo + "-tile.svg",
-            name: site.name, 
-            test: `https://simpleshare.io/go?site=${keys[loop]}&url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}&summary=${encodeURIComponent(shareSummary)}`,
-        });
-    }
-
     await ctx.render('index.hbs', { 
-        sites,
+        shareUrl: "https://simpleshare.io/",
+        shareText: "Simple script-less share buttons",
+        shareSummary: "The most awesome-est way to share!!!",
+        sites: sites.getAll(),
         title: 'SimpleShare.IO - simple script-less social sharing', 
         hideh2: true
     });
@@ -100,11 +93,7 @@ rootRouter.get('/index.html', async (ctx) => {
     await ctx.redirect('/');
 });
 
-rootRouter.get("/linkbuilder.html", async(ctx) => {
-    await ctx.render('linkbuilder.hbs', {
-        title: 'Link Builder',
-    });
-});
+rootRouter.get("/linkbuilder.html", linkBuilder);
 
 rootRouter.get('/status.json', async (ctx) => {
     const retVal: {[key:string]: any } = {};
@@ -116,7 +105,7 @@ rootRouter.get('/status.json', async (ctx) => {
     retVal["commit"] = process.env.COMMIT || null;
     retVal["tech"] = "NodeJS " + process.version;
     retVal["GA_ID"] = process.env.GA_ID || '(not set)';
-    retVal["targetcount"] = Object.keys(share_urls).length;
+    retVal["targetcount"] = sites.getAll().length;
     retVal["__dirname"] = __dirname;
     retVal["__filename"] = __filename;
     retVal["os.hostname"] = os.hostname();
@@ -199,38 +188,27 @@ function getVariables(ctx: KoaContext) {
     return result;
 }
 
-function getSite(ctx: KoaContext) {
-    const result:{[key:string]:any} = {};
+function getSite(ctx: KoaContext):sites.SiteData|null {
     if ('site' in ctx.request.query == false) {
-        result["success"] = false;
-        result["code"] = 400;
-        result["message"] = "Parameter 'site' is required";
-        sendJSON(ctx, result);
+        sendJSON(ctx, {
+            success: false,
+            code: 400,
+            message: "Parameter 'site' is required"
+        });
         return null;
     }
 
-    const site = ctx.request.query["site"];
-    if (share_urls[site] == null) {
-        result["success"] = false;
-        result["code"] = 404;
-        result["message"] = "Site '" + site + "' is not supported yet";
-        sendJSON(ctx, result);
+    const site = sites.get(ctx.request.query["site"]);
+    if (site == null) {
+        sendJSON(ctx, {
+            success: false,
+            code: 404,
+            message: `Site '${ctx.request.query["site"]}' is not supported yet`
+        });
         return null;
     }
 
     return site;
-}
-
-function make_template(strings:TemplateStringsArray, ...keys:string[]) {
-    return (function (...values:any[]) {
-        const dict = values[values.length - 1] || {};
-        const result = [strings[0]];
-        keys.forEach(function (key, i) {
-            const value = dict[key];
-            result.push(value, strings[i + 1]);
-        });
-        return result.join('');
-    });
 }
 
 function guid(): string {
@@ -266,87 +244,10 @@ function trackEvent(ctx: KoaContext, ga_id:string | undefined, event:{[key:strin
     formData.ua = ctx.request.get('user-agent') || '(not set)';
     formData.uip = ctx.ip || '0.0.0.0';
 
-    request.post({
-        url: "https://www.google-analytics.com/collect",
+    axios.post("https://www.google-analytics.com/collect", {
         form: formData
-    }, function (err, response, body) {
-        if (err) {
-            logger.error({ err, response, ga_id, formData, body }, "Google Analytics failed");
-        } else {
-            logger.info({ ga_id, formData, body }, "Google Analytics success");
-        }
     });
 }
-
-rootRouter.get('/sitelist.json', function (ctx) {
-    const result:{[key:string]: any} = {};
-
-    const sites = [];
-
-    const keys = Object.keys(share_urls);
-    for (let loop = 0; loop < keys.length; loop++) {
-        const site = share_urls[keys[loop]];
-        const site_result:{[key:string]: any} = {name: site.name, id: keys[loop]};
-        if (site.logo) {
-            site_result.logolink = "https://www.vectorlogo.zone/logos/" + site.logo + "/index.html";
-            site_result.logo = "https://www.vectorlogo.zone/logos/" + site.logo + "/" + site.logo + "-tile.svg";
-        }
-        const url = site.url_template({"SUMMARY": "${SUMMARY}", "IMAGE": "${IMAGE}"});
-        site_result.has_summary = (url.indexOf("${SUMMARY}") > 0);
-        site_result.has_image = (url.indexOf("${IMAGE}") > 0);
-        site_result.mobile_only = (url.startsWith("https://") == false);
-        sites.push(site_result);
-    }
-
-    result["sites"] = sites;
-    result["success"] = true;
-    result["code"] = 0;
-    result["message"] = result["sites"].length + " sites available";
-    sendJSON(ctx, result);
-});
-
-rootRouter.get('/siteinfo.json', function (ctx) {
-    const site = getSite(ctx);
-    if (site == null) {
-        return;
-    }
-
-    const result:{[key:string]: any} = {};
-
-    result["success"] = true;
-    result["message"] = "Information for " + share_urls[site].name;
-    result["code"] = 0;
-    result["site"] = site;
-    result["info"] = {"name": share_urls[site].name, "url": share_urls[site].url_template};
-
-    if (share_urls[site].logo) {
-        result.info.logo = "https://www.vectorlogo.zone/logos/" + share_urls[site].logo + "/" + share_urls[site].logo + "-tile.svg";
-    }
-    sendJSON(ctx, result);
-});
-
-rootRouter.get('/siteurl.json', function (ctx) {
-    const site = getSite(ctx);
-    if (site == null) {
-        return;
-    }
-
-    const vars = getVariables(ctx);
-    if (vars == null) {
-        return;
-    }
-
-    const result:{[key:string]: any} = {};
-
-    result["success"] = true;
-    result["message"] = "Link to '" + ctx.request.query["url"] + "' for " + share_urls[site].name;
-    result["code"] = 0;
-    result["site"] = site;
-    result["url"] = share_urls[site].url_template(vars);
-
-    sendJSON(ctx, result);
-});
-
 
 rootRouter.get('/go', function (ctx) {
     const site = getSite(ctx);
@@ -361,7 +262,7 @@ rootRouter.get('/go', function (ctx) {
 
     logger.info( { site: site, data: vars }, 'Redirecting');
 
-    const loc = share_urls[site].url_template(vars);
+    const loc = site.templateFn(vars);
 
     ctx.redirect(loc);
 
@@ -380,102 +281,18 @@ rootRouter.get('/go', function (ctx) {
 
 app.use(rootRouter.routes());
 
-const listener = app.listen(process.env.PORT || "4000", function () {
-    logger.info( { address: listener.address(), ga_id: process.env.GA_ID || '(not set)' }, 'Running');
-});
+async function main() {
 
-// brutal HACK to avoid having to do ${'TEXT'} in the templates
-const TEXT = 'TEXT';
-const URL = 'URL';
-const SUMMARY = 'SUMMARY';
-const IMAGE = 'IMAGE';
+    sites.initialize(logger);
+    templates.initialize(logger);
 
-interface ShareSite {
-    name: string,
-    logo: string,
-    url_template: (...values:any[]) => string
+    const listener = app.listen(process.env.PORT || "4000", function () {
+        logger.info( { address: listener.address(), ga_id: process.env.GA_ID || '(not set)' }, 'Running');
+    });
 }
 
-const share_urls:{[key:string]:ShareSite} = {
-    'facebook': {
-        name: 'Facebook',
-        logo: 'facebook',
-        url_template: make_template`https://facebook.com/sharer/sharer.php?u=${URL}`
-    },
-    'googleplus': {
-        name: 'Google+',
-        logo: 'google_plus',
-        url_template: make_template`https://plus.google.com/share?url=${URL}`
-    },
-    'hn': {
-        name: 'Hacker News',
-        logo: 'ycombinator',
-        url_template: make_template`https://news.ycombinator.com/submitlink?u=${URL}&t=${TEXT}`
-    },
-    'linkedin': {
-        name: 'LinkedIn',
-        logo: 'linkedin',
-        url_template: make_template`https://www.linkedin.com/shareArticle?mini=true&url=${URL}&title=${TEXT}&summary=${TEXT}&source=${URL}`
-    },
-    'pinboard': {
-        name: 'Pinboard',
-        logo: 'pinboard',
-        url_template: make_template`https://pinboard.in/add?next=same&url=${URL}&description=${SUMMARY}&title=${TEXT}`
-    },
-    'pinterest': {
-        name: 'Pinterest',
-        logo: 'pinterest',
-        url_template: make_template`https://pinterest.com/pin/create/button/?url=${URL}&media=${IMAGE}&summary=${TEXT}`
-    },
-    'pocket': {
-        name: 'Pocket',
-        logo: 'getpocket',
-        url_template: make_template`https://getpocket.com/save?url=${URL}&title=${TEXT}`
-    },
-    'reddit': {
-        name: 'Reddit',
-        logo: 'reddit',
-        url_template: make_template`https://reddit.com/submit/?url=${URL}`
-    },
-    'stumbleupon': {
-        name: 'StumbleUpon',
-        logo: 'stumbleupon',
-        url_template: make_template`http://www.stumbleupon.com/submit?url=${URL}&title=${TEXT}`
-    },
-    'telegram': {
-        name: 'Telegram',
-        logo: 'telegram',
-        url_template: make_template`https://telegram.me/share/url?text=${TEXT}&url=${URL}`
-    },
-    'tumblr': {
-        name: 'Tumblr',
-        logo: 'tumblr',
-        url_template: make_template`https://www.tumblr.com/widgets/share/tool?posttype=link&title=${TEXT}&caption=${TEXT}&content=${URL}&canonicalUrl=${URL}&shareSource=tumblr_share_button`
-    },
-    'twitter': {
-        name: 'Twitter',
-        logo: 'twitter',
-        url_template: make_template`https://twitter.com/intent/tweet/?text=${TEXT}&url=${URL}`
-    },
-    'vk': {
-        name: 'VK',
-        logo: 'vk',
-        url_template: make_template`http://vk.com/share.php?url=${URL}&title=${TEXT}`
-    },
-    'whatsapp': {
-        name: 'WhatsApp',
-        logo: 'whatsapp',
-        url_template: make_template`whatsapp://send?text=${TEXT}%20${URL}`
-    },
-    'wordpress': {
-        name: 'Wordpress',
-        logo: 'wordpress',
-        url_template: make_template`https://wordpress.com/press-this.php?u=${URL}&t=${TEXT}&s=${SUMMARY}&i=${IMAGE}`
-    },
-    'xing': {
-        name: 'XING',
-        logo: 'xing',
-        url_template: make_template`https://www.xing.com/app/user?op=share;url=${URL};title=${TEXT}`
-    }
-};
+main();
+
+
+
 

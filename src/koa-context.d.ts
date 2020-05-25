@@ -2,8 +2,9 @@
  * typescript isn't finding the correct additions to Koa's context
  */
 
-import { ExtendableContext } from 'koa';
+import * as Koa from 'koa';
 import { Logger } from 'pino';
+import * as KoaRouter from 'koa-router';
 
 declare module 'koa' {
     interface ExtendableContext {
