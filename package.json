@@ -19,7 +19,7 @@
     "koa-views": "^6.1.4"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=10"
   },
   "repository": {
     "url": "https://www.github.com/fileformat/simpleshare"
