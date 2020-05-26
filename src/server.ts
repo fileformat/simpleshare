@@ -89,6 +89,11 @@ rootRouter.get('/', async (ctx) => {
     });
 });
 
+rootRouter.get('/contact.html', async (ctx) => {
+    await ctx.render('contact.hbs', {
+        title: 'Contact',
+    });
+});
 rootRouter.get('/index.html', async (ctx) => {
     await ctx.redirect('/');
 });
