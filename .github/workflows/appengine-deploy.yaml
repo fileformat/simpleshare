@@ -14,10 +14,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - name: Use Node 10 (req'd for AppEngine Free)
+      - name: Use Node 12 (req'd for AppEngine Free)
         uses: actions/setup-node@v1
         with:
-          node-version: 10
+          node-version: 12
 
       - run: yarn install
 

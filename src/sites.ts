@@ -20,9 +20,6 @@ const sites:SiteData[] = [];
 async function initialize(logger: Pino.Logger) {
     const sitesFileName = path.join(__dirname, '..', 'data', 'sites.json');
     const rawStr = await fsPromises.readFile(sitesFileName, 'utf-8');
-    if (rawStr instanceof Buffer) {
-        throw new Error('should not happen if encodeing is set in readFile');
-    }
     const rawData = JSON.parse(rawStr);
 
     for (const rawSite of rawData) {

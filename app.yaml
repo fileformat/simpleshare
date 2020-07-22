@@ -14,5 +14,5 @@
       "url": "/.*"
     }
   ],
-  "runtime": "nodejs10"
+  "runtime": "nodejs12"
 }
