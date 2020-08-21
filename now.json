@@ -1,9 +1,0 @@
-{
-    "name": "simpleshare.io",
-    "alias": "simpleshare.io",
-    "features": {
-        "cloud": "v2"
-    },
-    "type": "docker",
-	"version": 1
-}
