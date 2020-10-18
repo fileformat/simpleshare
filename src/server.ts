@@ -269,6 +269,7 @@ rootRouter.get('/go', function (ctx) {
 
     const loc = site.templateFn(vars);
 
+    ctx.set('Referrer-Policy', 'unsafe-url');
     ctx.redirect(loc);
 
     const event = {
