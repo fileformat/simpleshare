@@ -3,6 +3,7 @@
 
 // init project
 import axios from 'axios';
+import { promises as fsPromises } from 'fs';
 import Koa from 'koa';
 import KoaPinoLogger from 'koa-pino-logger';
 import KoaRouter from 'koa-router';
@@ -89,11 +90,21 @@ rootRouter.get('/', async (ctx) => {
     });
 });
 
+rootRouter.get('/comparison.html', async (ctx) => {
+    const fileName = path.join(__dirname, '..', 'data', 'comparison.json');
+    const rawStr = await fsPromises.readFile(fileName, 'utf-8');   
+    await ctx.render('comparison.hbs', {
+        comparisonData: JSON.parse(rawStr as string),
+        title: 'Social Linking Site Comparison',
+    });
+});
+
 rootRouter.get('/contact.html', async (ctx) => {
     await ctx.render('contact.hbs', {
         title: 'Contact',
     });
 });
+
 rootRouter.get('/index.html', async (ctx) => {
     await ctx.redirect('/');
 });

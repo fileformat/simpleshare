@@ -1,0 +1,39 @@
+{{> above}}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Sharing site</th>
+            <th class="text-center">no javascript</th>
+            <th class="text-center">open source</th>
+            <th class="text-center">click tracking</th>
+            <th class="text-center"># sites</th>
+            <th>Hosting</th>
+        </tr>
+    </thead>
+    <tbody>
+{{#each comparisonData}}
+        <tr>
+            <td><a href="{{website}}">{{name}}</a></td>
+            <td class="text-center">{{scriptless}}</td>
+            <td class="text-center">{{#if source}}<a href="{{source}}">Yes</a>{{/if}}</td>
+            <td class="text-center">{{tracking}}</td>
+            <td class="text-center">{{sites}}</td>
+            <td>{{hosting}}</td>
+        </tr>
+{{/each}}
+    </tbody>
+</table>
+
+<ul>
+    <li>works on Github readme</li>
+    <li>No external tracking (except for mine)</li>
+    <li>No link maintenance</li>
+</ul>
+
+<h3>To Do</h3>
+<ul>
+    <li><a href="https://alternativeto.net/software/sharethis/">20</a> on Alternativeto.net</li>
+</ul>
+
+{{> below}}

@@ -20,7 +20,7 @@ const sites:SiteData[] = [];
 async function initialize(logger: Pino.Logger) {
     const sitesFileName = path.join(__dirname, '..', 'data', 'sites.json');
     const rawStr = await fsPromises.readFile(sitesFileName, 'utf-8');
-    const rawData = JSON.parse(rawStr);
+    const rawData = JSON.parse(rawStr as string);
 
     for (const rawSite of rawData) {
         const site = {
