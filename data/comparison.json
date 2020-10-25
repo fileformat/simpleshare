@@ -1,29 +1,46 @@
 [
     {
-        "hosting": "Link builder with optional hosting",
+        "grade": "",
+        "name": "",
+        "scriptless": true,
+        "sites": 0,
+        "slug": "",
+        "source": "",
+        "tracking": true,
+        "type": "",
+        "website": ""
+    },
+    {
+        "grade": "A",
         "name": "SimpleShare.IO",
         "scriptless": true,
         "sites": 16,
+        "slug": "simpleshare_io",
         "source": "https://github.com/fileformat/SimpleShare",
         "tracking": true,
+        "type": "Link builder with optional redirector",
         "website": "https://simpleshare.io/"
     },
     {
-        "hosting": "Link builder",
+        "grade": "B",
         "name": "SharingButtons.io",
         "scriptless": true,
         "sites": 12,
+        "slug": "sharingbuttons_io",
         "source": "https://github.com/mxstbr/sharingbuttons.io",
         "tracking": false,
+        "type": "Link builder",
         "website": "https://sharingbuttons.io/"
     },
     {
-        "hosting": "Link builder",
+        "grade": "B",
         "name": "Simple Sharing Buttons Generator",
         "scriptless": true,
         "sites": 9,
+        "slug": "simplesharingbuttons",
         "source": "https://github.com/fourtonfish/SimpleSharingButtons",
         "tracking": false,
+        "type": "Link builder",
         "website": "https://simplesharingbuttons.com/"
     }
 ]

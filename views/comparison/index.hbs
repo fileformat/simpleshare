@@ -1,0 +1,49 @@
+{{> above}}
+
+<h2>Criteria</h2>
+
+<ul>
+    <li>Scriptless - Does it work with JavaScript disabled?</li>
+    <li>Github README - Does the generated snippet work when added (unchanged) to a Github Readme?</li>
+    <li>Open source - Does it have an open source license?</li>
+    <li>Tracking - Is there a way to see how many times it is clicked?</li>
+    <li>Track-less - Is there a way to disable tracking?</li>
+    <li>Only my tracking - Is my tracking the only tracking taking place?</li>
+    <li>Hosted version - Is there a free hosted version?</li>
+    <li>Self-hosted version - Is there a version that I can host myself?</li>
+    <li>Link maintenance - If a social site changes direct links, do I need to update all my pages?</li>
+</ul>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Sharing site</th>
+            <th>Type</th>
+            <th class="text-center"># sites</th>
+            <th class="text-center">Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+{{#each data}}{{#if slug}}
+        <tr>
+            <td><a href="{{website}}">{{name}}</a></td>
+            <td>{{type}}</td>
+            <td class="text-center">{{sites}}</td>
+            <td class="text-center"><a href="/comparison/{{slug}}/index.html">{{grade}}</a></td>
+        </tr>
+{{/if}}{{/each}}
+    </tbody>
+</table>
+
+<!--
+            <td class="text-center">{{scriptless}}</td>
+            <td class="text-center">{{#if source}}<a href="{{source}}">Yes</a>{{/if}}</td>
+            <td class="text-center">{{tracking}}</td>
+-->
+<h3>To Do</h3>
+<ul>
+    <li><a href="https://alternativeto.net/software/sharethis/">20</a> on Alternativeto.net</li>
+</ul>
+
+{{> below}}

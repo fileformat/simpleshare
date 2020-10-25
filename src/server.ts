@@ -3,7 +3,6 @@
 
 // init project
 import axios from 'axios';
-import { promises as fsPromises } from 'fs';
 import Koa from 'koa';
 import KoaPinoLogger from 'koa-pino-logger';
 import KoaRouter from 'koa-router';
@@ -16,7 +15,9 @@ import Pino from 'pino';
 
 import { linkBuilder } from './linkbuilder';
 import * as sites from './sites';
+import { sitemap } from './sitemap';
 import * as templates from './templates';
+import * as comparison from './comparison';
 
 type KoaContext = Koa.ParameterizedContext<any, KoaRouter.IRouterParamContext<any, {}>>;
 
@@ -90,15 +91,6 @@ rootRouter.get('/', async (ctx) => {
     });
 });
 
-rootRouter.get('/comparison.html', async (ctx) => {
-    const fileName = path.join(__dirname, '..', 'data', 'comparison.json');
-    const rawStr = await fsPromises.readFile(fileName, 'utf-8');   
-    await ctx.render('comparison.hbs', {
-        comparisonData: JSON.parse(rawStr as string),
-        title: 'Social Linking Site Comparison',
-    });
-});
-
 rootRouter.get('/contact.html', async (ctx) => {
     await ctx.render('contact.hbs', {
         title: 'Contact',
@@ -110,6 +102,8 @@ rootRouter.get('/index.html', async (ctx) => {
 });
 
 rootRouter.get("/linkbuilder.html", linkBuilder);
+
+rootRouter.get('/sitemap.xml', sitemap);
 
 rootRouter.get('/status.json', async (ctx) => {
     const retVal: {[key:string]: any } = {};
@@ -195,7 +189,7 @@ function getVariables(ctx: KoaContext) {
     const summary = ctx.request.query["summary"] || '';
 
     const image = ctx.request.query["image"] || '';
-
+    rootRouter
     result["URL"] = encodeURIComponent(ctx.request.query["url"]);
     result["TEXT"] = encodeURIComponent(text);
     result["SUMMARY"] = encodeURIComponent(summary);
@@ -300,8 +294,13 @@ app.use(rootRouter.routes());
 
 async function main() {
 
-    sites.initialize(logger);
-    templates.initialize(logger);
+    await Promise.all([ 
+        sites.initialize(logger),
+        templates.initialize(logger),
+        comparison.initialize(logger)
+    ]);
+
+    app.use(comparison.comparisonRouter.routes());
 
     const listener = app.listen(process.env.PORT || "4000", function () {
         logger.info( { address: listener.address(), ga_id: process.env.GA_ID || '(not set)' }, 'Running');
