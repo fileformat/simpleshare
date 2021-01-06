@@ -10,7 +10,7 @@
     "start": "node dist/server.js"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "handlebars": "^4.0.12",
     "koa": "^2.5.3",
     "koa-pino-logger": "^3.0.0",
