@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "handlebars": "^4.0.12",
+    "handlebars": "^4.7.7",
     "koa": "^2.5.3",
     "koa-pino-logger": "^3.0.0",
     "koa-router": "^9.1.0",
