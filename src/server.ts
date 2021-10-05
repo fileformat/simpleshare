@@ -17,6 +17,7 @@ import { linkBuilder } from './linkbuilder';
 import * as sites from './sites';
 import { sitemap } from './sitemap';
 import * as templates from './templates';
+import * as util from './util';
 import * as comparison from './comparison';
 
 type KoaContext = Koa.ParameterizedContext<any, KoaRouter.IRouterParamContext<any, {}>>;
@@ -150,7 +151,7 @@ function sendJSON(ctx: KoaContext, data: object) {
     ctx.set('Access-Control-Allow-Methods', 'POST, GET');
     ctx.set('Access-Control-Max-Age', '604800');
 
-    const callback = ctx.request.query['callback'];
+    const callback = util.getFirst(ctx.request.query['callback']);
     if (callback && callback.match(/^[$A-Za-z_][0-9A-Za-z_$]*$/) != null) {
         ctx.type = 'text/javascript';
         ctx.body = callback + '(' + JSON.stringify(data) + ');';
@@ -183,14 +184,16 @@ function getVariables(ctx: KoaContext) {
         return null;
     }
 
+    const targetUrl = util.getFirst(ctx.request.query["url"]) || '';
+
     // LATER: split off just filename?
-    const text = ctx.request.query["text"] || ctx.request.query["url"];
+    const text = util.getFirst(ctx.request.query["text"]) || targetUrl;
 
-    const summary = ctx.request.query["summary"] || '';
+    const summary = util.getFirst(ctx.request.query["summary"]) || '';
 
-    const image = ctx.request.query["image"] || '';
-    rootRouter
-    result["URL"] = encodeURIComponent(ctx.request.query["url"]);
+    const image = util.getFirst(ctx.request.query["image"]) || '';
+
+    result["URL"] = encodeURIComponent(targetUrl);
     result["TEXT"] = encodeURIComponent(text);
     result["SUMMARY"] = encodeURIComponent(summary);
     result["IMAGE"] = encodeURIComponent(image);
@@ -199,7 +202,9 @@ function getVariables(ctx: KoaContext) {
 }
 
 function getSite(ctx: KoaContext):sites.SiteData|null {
-    if ('site' in ctx.request.query == false) {
+    const targetSite = util.getFirst(ctx.request.query["site"]);
+
+    if (!targetSite) {
         sendJSON(ctx, {
             success: false,
             code: 400,
@@ -208,7 +213,8 @@ function getSite(ctx: KoaContext):sites.SiteData|null {
         return null;
     }
 
-    const site = sites.get(ctx.request.query["site"]);
+
+    const site = sites.get(targetSite);
     if (site == null) {
         sendJSON(ctx, {
             success: false,
@@ -229,7 +235,7 @@ function guid(): string {
     });
 }
 
-function trackEvent(ctx: KoaContext, ga_id:string | undefined, event:{[key:string]:string}) {
+function trackEvent(ctx: KoaContext, ga_id:string | undefined, event:trackingEvent) {
     if (!ga_id) {
         return;
     }
@@ -259,6 +265,14 @@ function trackEvent(ctx: KoaContext, ga_id:string | undefined, event:{[key:strin
     });
 }
 
+type trackingEvent = {
+    eventCategory?: string,
+    eventAction?: string,
+    eventLabel?: string,
+    eventValue?: string
+   
+}
+
 rootRouter.get('/go', function (ctx) {
     const site = getSite(ctx);
     if (site == null) {
@@ -277,14 +291,14 @@ rootRouter.get('/go', function (ctx) {
     ctx.set('Referrer-Policy', 'unsafe-url');
     ctx.redirect(loc);
 
-    const event = {
+    const event:trackingEvent = {
         eventCategory: 'SHARE',
-        eventAction: ctx.request.query["site"],
-        eventLabel: ctx.request.query["url"]
+        eventAction: util.getFirst(ctx.request.query["site"]),
+        eventLabel: util.getFirst(ctx.request.query["url"])
     };
 
     //webmaster's tracking
-    trackEvent(ctx, ctx.request.query['ga'], event);
+    trackEvent(ctx, util.getFirst(ctx.request.query['ga']), event);
 
     //simpleshare tracking
     trackEvent(ctx, process.env.GA_ID, event);
