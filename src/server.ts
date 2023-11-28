@@ -3,7 +3,7 @@ import Koa from 'koa';
 import KoaPinoLogger from 'koa-pino-logger';
 import KoaRouter from 'koa-router';
 import KoaStatic from 'koa-static';
-import KoaViews from 'koa-views';
+import KoaViews from '@ladjs/koa-views';
 import * as path from 'path';
 import Pino from 'pino';
 

@@ -1,4 +1,4 @@
-FROM node:current-stretch-slim as base
+FROM node:20-bookworm-slim as base
 RUN groupadd -r appuser && \
 	useradd --create-home --gid appuser --home-dir /app --no-log-init --system appuser
 
