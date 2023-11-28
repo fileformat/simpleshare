@@ -1,11 +1,11 @@
 # To Do
 
-- [ ] purge now.sh/logwatch.sh/.travis.yml
-- [ ] universal analytics
-- [ ] remove client-side js
-- [ ] builder page for HTML/markdown
+- [ ] data in yaml instead of JSON
+- [ ] remove Google+
+- [ ] note about `ping` attribute for HTML links (and support in LinkBuilder)
+- [ ] better looking builder page
+- [ ] builder page for support for markdown
 - [ ] use handlebars for template strings
-- [ ] move from AppEngine to GCR
 
 ## Features
 

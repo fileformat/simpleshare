@@ -7,8 +7,8 @@ FROM base AS build
 WORKDIR /app
 USER appuser
 COPY --chown=appuser:appuser . .
-RUN yarn install
-RUN yarn run build
+RUN npm install
+RUN npm run build
 
 FROM base AS run
 ARG COMMIT="(not set)"
@@ -19,8 +19,8 @@ WORKDIR /app
 USER appuser
 COPY --chown=appuser:appuser . .
 COPY --chown=appuser:appuser --from=build /app/dist /app/dist
-RUN yarn install --production
+RUN npm install --production
 EXPOSE 4000
 ENV PORT 4000
-CMD ["yarn", "run", "start"]
+CMD ["npm", "run", "start"]
 

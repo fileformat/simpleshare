@@ -1,6 +1,6 @@
 {
-  "name": "simpleshare.io",
-  "version": "1.0.0",
+  "name": "simpleshare",
+  "version": "1.1.0",
   "description": "Support 'share' links for static sites without invasive tracking",
   "license-actual-since-npm-does-not-follow-the-actual-spdx-spec": "AGPL-3.0-or-later",
   "license": "AGPL-3.0",
@@ -19,12 +19,13 @@
     "koa-views": "^7.0.1"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=20"
   },
   "repository": {
     "url": "https://www.github.com/fileformat/simpleshare"
   },
   "keywords": [
+    "share",
     "sharing",
     "social",
     "redirect",

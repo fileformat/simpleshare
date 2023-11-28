@@ -1,5 +1,5 @@
 #
-# robots.txt for simpleshare.io
+# robots.txt for simpleshare
 #
 # Do not index/follow the 'go' URLs
 #

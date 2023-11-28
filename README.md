@@ -1,37 +1,37 @@
 
-# SimpleShare.io [<img alt="SimpleShare.io Logo" src="https://www.vectorlogo.zone/logos/simpleshareio/simpleshareio-tile.svg" height="96" align="right" />](https://simpleshare.io/)
-[![# of images](https://img.shields.io/badge/dynamic/json.svg?style=flat-square&label=Social+sites&url=https%3A%2F%2Fsimpleshare.io%2Fstatus.json&query=%24.targetcount)](https://simpleshare.io/)
+# SimpleShare [<img alt="SimpleShare Logo" src="https://www.vectorlogo.zone/logos/simplesharedev/simplesharedev-tile.svg" height="96" align="right" />](https://simpleshare.dev/)
+[![# of images](https://img.shields.io/badge/dynamic/json.svg?style=flat-square&label=Social+sites&url=https%3A%2F%2Fsimpleshare.dev%2Fstatus.json&query=%24.targetcount)](https://simpleshare.dev/)
 [![Github Action build status](https://github.com/VectorLogoZone/logosearch/workflows/build/badge.svg)](https://github.com/fileformat/simpleshare/actions)
 [![AGPLv3](https://img.shields.io/github/license/fileformat/simpleshare.svg?style=flat-square)](LICENSE.txt)
 
-[SimpleShare.IO](https://simpleshare.io/) is a simple site to redirect to one of the social sharing sites.  It is really just so I don't have to use a third-party service that bloats my pages with a ton of Javascript and tracks my viewers.
+[SimpleShare](https://simpleshare.dev/) is a simple site to redirect to one of the social sharing sites.  It is really just so I don't have to use a third-party service that bloats my pages with a ton of Javascript and tracks my viewers.
 
-And I only have one place where I track all the social site URLs.
+And I only have one place where I manage all the URLs for sharing on each social site.
 
-There are more details on the [FAQ](https://simpleshare.io/) page.
+There are more details on the [SimpleShare home page](https://simpleshare.dev/) page.
 
 ## Demo
 
-Hey, script-less means in works in README files, so go ahead and share a link to [SimpleShare.IO](https://simpleshare.io/)!!!
+Hey, script-less means in works in README files, so go ahead and share a link to [SimpleShare.dev](https://simpleshare.dev/)!!!
 
 Share:
-<a href="https://simpleshare.io/go?site=facebook&amp;url=https%3A%2F%2Fsimpleshare.io%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on facebook" src="https://www.vectorlogo.zone/logos/facebook/facebook-tile.svg" height="24" /></a>
-<a href="https://simpleshare.io/go?site=hn&amp;url=https%3A%2F%2Fsimpleshare.io%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on hacker news" src="https://www.vectorlogo.zone/logos/ycombinator/ycombinator-tile.svg" height="24" /></a>
-<a href="https://simpleshare.io/go?site=pinboard&amp;url=https%3A%2F%2Fsimpleshare.io%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on pinboard" src="https://www.vectorlogo.zone/logos/pinboard/pinboard-tile.svg" height="24" v/></a>
-<a href="https://simpleshare.io/go?site=reddit&amp;url=https%3A%2F%2Fsimpleshare.io%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on reddit" src="https://www.vectorlogo.zone/logos/reddit/reddit-tile.svg" height="24" /></a>
-<a href="https://simpleshare.io/go?site=twitter&amp;url=https%3A%2F%2Fsimpleshare.io%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on twitter" src="https://www.vectorlogo.zone/logos/twitter/twitter-tile.svg" height="24" /></a>
+<a href="https://simpleshare.dev/go?site=facebook&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on facebook" src="https://www.vectorlogo.zone/logos/facebook/facebook-tile.svg" height="24" /></a>
+<a href="https://simpleshare.dev/go?site=hn&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on hacker news" src="https://www.vectorlogo.zone/logos/ycombinator/ycombinator-tile.svg" height="24" /></a>
+<a href="https://simpleshare.dev/go?site=pinboard&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on pinboard" src="https://www.vectorlogo.zone/logos/pinboard/pinboard-tile.svg" height="24" v/></a>
+<a href="https://simpleshare.dev/go?site=reddit&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on reddit" src="https://www.vectorlogo.zone/logos/reddit/reddit-tile.svg" height="24" /></a>
+<a href="https://simpleshare.dev/go?site=twitter&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on twitter" src="https://www.vectorlogo.zone/logos/twitter/twitter-tile.svg" height="24" /></a>
 
 ## Using
 
-Follow the instructions in the [FAQ](https://simpleshare.io/).
+Follow the instructions in the [Home Page](https://simpleshare.dev/).
 
 ## Running your own copy
 
 It is a simple node.js app:
 
 ```bash
-yarn install
-yarn run start
+npm install
+npm run start
 ```
 
 If you want to send an event to Google Analytics for every hit, set the `GA_ID` environment variable to your GA property ID.
@@ -57,9 +57,8 @@ Contributions are welcome!  Please see the [Contribution Guidelines](CONTRIBUTIN
 [![Node.js](https://www.vectorlogo.zone/logos/nodejs/nodejs-ar21.svg)](https://nodejs.org/ "Application Server")
 [![Nodemon](https://www.vectorlogo.zone/logos/nodemonio/nodemonio-ar21.svg)](https://nodemon.io/ "Development tool")
 [![NodePing](https://www.vectorlogo.zone/logos/nodeping/nodeping-ar21.svg)](https://nodeping.com?rid=201109281250J5K3P "Uptime monitoring")
-[![Pico CSS](https://www.vectorlogo.zone/logos/picocss/picocss-ar21.svg)](https://picocss.com/ "CSS")
+[![npm](https://www.vectorlogo.zone/logos/npmjs/npmjs-ar21.svg)](https://www.npmjs.com/ "JS Package Management")[![Pico CSS](https://www.vectorlogo.zone/logos/picocss/picocss-ar21.svg)](https://picocss.com/ "CSS")
 [![pino](https://www.vectorlogo.zone/logos/getpinoio/getpinoio-ar21.svg)](https://www.getpino.io/ "Logging")
 [![SuperTinyIcons](https://www.vectorlogo.zone/logos/supertinyicons/supertinyicons-ar21.svg)](https://supertinyicons.org/ "Images")
 [![TypeScript](https://www.vectorlogo.zone/logos/typescriptlang/typescriptlang-ar21.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript "Programming Language")
 [![VectorLogoZone](https://www.vectorlogo.zone/logos/vectorlogozone/vectorlogozone-ar21.svg)](https://www.vectorlogo.zone/logos/index.html#tile "Images")
-[![yarn](https://www.vectorlogo.zone/logos/yarnpkg/yarnpkg-ar21.svg)](https://www.yarnpkg.com/ "JS Package Management")

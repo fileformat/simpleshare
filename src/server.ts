@@ -1,15 +1,9 @@
-// server.js
-// where your node app starts
-
-// init project
 import axios from 'axios';
 import Koa from 'koa';
 import KoaPinoLogger from 'koa-pino-logger';
 import KoaRouter from 'koa-router';
 import KoaStatic from 'koa-static';
 import KoaViews from 'koa-views';
-//import * as fs from 'fs';
-import * as os from 'os';
 import * as path from 'path';
 import Pino from 'pino';
 
@@ -83,11 +77,11 @@ const rootRouter = new KoaRouter();
 
 rootRouter.get('/', async (ctx) => {
     await ctx.render('index.hbs', { 
-        shareUrl: "https://simpleshare.io/",
+        shareUrl: "https://simpleshare.dev/",
         shareText: "Simple script-less share buttons",
         shareSummary: "The most awesome-est way to share!!!",
         sites: sites.getAll(),
-        title: 'SimpleShare.IO - simple script-less social sharing', 
+        title: 'SimpleShare - simple script-less social sharing', 
         hideh2: true
     });
 });
@@ -115,33 +109,7 @@ rootRouter.get('/status.json', async (ctx) => {
     retVal["lastmod"] = process.env.LASTMOD || null;
     retVal["commit"] = process.env.COMMIT || null;
     retVal["tech"] = "NodeJS " + process.version;
-    retVal["GA_ID"] = process.env.GA_ID || '(not set)';
-    retVal["targetcount"] = sites.getAll().length;
-    retVal["__dirname"] = __dirname;
-    retVal["__filename"] = __filename;
-    retVal["os.hostname"] = os.hostname();
-    retVal["os.type"] = os.type();
-    retVal["os.platform"] = os.platform();
-    retVal["os.arch"] = os.arch();
-    retVal["os.release"] = os.release();
-    retVal["os.uptime"] = os.uptime();
-    retVal["os.loadavg"] = os.loadavg();
-    retVal["os.totalmem"] = os.totalmem();
-    retVal["os.freemem"] = os.freemem();
-    retVal["os.cpus.length"] = os.cpus().length;
-    // too much junk: retVal["os.networkInterfaces"] = os.networkInterfaces();
-
-    retVal["process.arch"] = process.arch;
-    retVal["process.cwd"] = process.cwd();
-    retVal["process.execPath"] = process.execPath;
-    retVal["process.memoryUsage"] = process.memoryUsage();
-    retVal["process.platform"] = process.platform;
-    retVal["process.release"] = process.release;
-    retVal["process.title"] = process.title;
-    retVal["process.uptime"] = process.uptime();
-    retVal["process.version"] = process.version;
-    retVal["process.versions"] = process.versions;
-
+ 
     sendJSON(ctx, retVal);
 });
 
@@ -160,19 +128,6 @@ function sendJSON(ctx: KoaContext, data: object) {
         ctx.body = JSON.stringify(data);
     }
 }
-
-/*
-app.get('/status.json', function (req, res) {
-    res.writeHead(200, {
-        "Content-Type": "text/plain",
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, GET',
-        'Access-Control-Max-Age': '604800'
-    });
-
- sendJSON(req, res, getStatus());
-});
-*/
 
 function getVariables(ctx: KoaContext) {
     const result:{[key:string]: any} = {};

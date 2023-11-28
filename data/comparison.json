@@ -12,14 +12,14 @@
     },
     {
         "grade": "A",
-        "name": "SimpleShare.IO",
+        "name": "SimpleShare",
         "scriptless": true,
         "sites": 16,
-        "slug": "simpleshare_io",
+        "slug": "simpleshare_dev",
         "source": "https://github.com/fileformat/SimpleShare",
         "tracking": true,
         "type": "Link builder with optional redirector",
-        "website": "https://simpleshare.io/"
+        "website": "https://simpleshare.dev/"
     },
     {
         "grade": "B",

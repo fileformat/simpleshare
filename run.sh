@@ -16,9 +16,14 @@ if [ -f "${ENV_FILE}" ]; then
     export $(cat "${ENV_FILE}")
 fi
 
+if [ ! -d "./node_modules" ]; then
+    echo "INFO: installing node modules!"
+    npm install
+fi
+
 #
 # run in watch mode
 #
-./node_modules/.bin/nodemon
+npx nodemon
 
 

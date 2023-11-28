@@ -18,7 +18,7 @@ async function linkBuilder(ctx:Koa.ExtendableContext) {
             if (!site) {
                 continue;
             }
-            //https://simpleshare.io/go?site={{this.id}}&url={{encodeURIComponent this.url}}&text={{encodeURIComponent this.text}}
+            //https://simpleshare.dev/go?site={{this.id}}&url={{encodeURIComponent this.url}}&text={{encodeURIComponent this.text}}
             shares.push({
                 id: site.id,
                 name: site.name,
