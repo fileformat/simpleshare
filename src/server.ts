@@ -109,7 +109,8 @@ rootRouter.get('/status.json', async (ctx) => {
     retVal["lastmod"] = process.env.LASTMOD || null;
     retVal["commit"] = process.env.COMMIT || null;
     retVal["tech"] = "NodeJS " + process.version;
- 
+    retVal["targetcount"] = sites.getAll().length;
+     
     sendJSON(ctx, retVal);
 });
 
