@@ -1,0 +1,10 @@
+---
+layout: none
+---
+#
+# robots.txt for {{site.production_url | slice: 8, 99}}
+#
+
+User-Agent: *
+Disallow: /honeypot.txt
+Allow: /

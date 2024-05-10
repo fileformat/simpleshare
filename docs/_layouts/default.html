@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{site.title}}</title>
+    <meta name="referrer" content="unsafe-url" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+    <style>
+
+        footer {
+            margin-top: 0;
+            padding-top: 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1>
+            <img alt="logo" src="/favicon.svg" style="height:1.5em;vertical-align:top;" />&nbsp;
+            {{site.title}}
+        </h1>
+        <hr/>
+        <p><small>
+    {%- for link in site.links %}
+    {%- if forloop.index0 > 0 %} | {% endif %}
+            <a href="{{link.url}}" title="{{link.name}}">{{link.name}}</a>
+    {%- endfor %}
+        </small></p>
+{{content}}
+        <hr/>
+    </main>
+</body>
+</html>

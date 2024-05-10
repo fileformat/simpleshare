@@ -1,0 +1,9 @@
+---
+layout: default
+---
+{% assign image_files = site.static_files | where: "extname", ".svg" | where_exp: "item", "item.path != '/favicon.svg'" | sort: "basename" %}
+<p>
+{% for myimage in image_files %}
+    <a href="{{myimage.path}}" title="{{myimage.basename}}"><img style="padding:5pt;height:72pt;" src="{{ myimage.path }}" alt="{{ myimage.basename }}"></a>
+{% endfor %}
+</p>

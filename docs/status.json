@@ -1,0 +1,14 @@
+---
+title: Status
+noindex: true
+layout: none
+---
+{%- assign image_files = site.static_files | where: "extname", ".svg" | where_exp: "item", "item.path != '/favicon.svg'" | sort: "basename" -%}
+{
+  "success":true,
+  "message":"OK",
+  "commit":"{{site.github.build_revision | default: site.data.build_revision | default: 'null' | slice: 0, 7 }}",
+  "lastmod":"{{site.time|date_to_xmlschema}}",
+  "tech": "Jekyll {{site.github.versions.jekyll | default: site.data.jekyll_version | default: '(unknown)'}}",
+  "count": {{ image_files | size }}
+}

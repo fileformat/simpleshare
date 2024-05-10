@@ -1,0 +1,19 @@
+#
+# _config.yml for Google Cloud Icons
+#
+
+exclude: [ "CNAME", "**/*_src*" ]
+permalink: /blog/:year/:month/:day/:title/index.:output_ext
+production_url: https://images.simpleshare.dev
+title: SimpleShare Icons
+markdown: kramdown
+plugins:
+  - jekyll-redirect-from
+redirect_from:
+  json: false
+theme: null
+links:
+  - name: "Return to SimpleShare.dev"
+    url: "https://simpleshare.dev/"
+  - name: "Source"
+    url: "https://github.com/fileformat/simpleshare"
