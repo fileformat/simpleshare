@@ -25,9 +25,9 @@ async function initialize(logger: Pino.Logger) {
     for (const rawSite of rawData) {
         const site = {
             id: rawSite.id,
-            logo_url: `https://www.vectorlogo.zone/logos/${rawSite.logo}/${rawSite.logo}-tile.svg`,
+            logo_url: `https://cdn.simpleshare.dev/tile/${rawSite.id}-tile.svg`,
             logo_handle: rawSite.logo,
-            logo_link: `https://www.vectorlogo.zone/logos/${rawSite.logo}/index.html`,
+            logo_link: `https://www.vectorlogo.zone/logos/${rawSite.vectorlogozone}/index.html`,
             name: rawSite.name,
             template: rawSite.template,
             templateFn: Handlebars.compile(rawSite.template)
