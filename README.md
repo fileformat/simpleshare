@@ -1,8 +1,13 @@
 
 # SimpleShare [<img alt="SimpleShare Logo" src="https://www.vectorlogo.zone/logos/simplesharedev/simplesharedev-tile.svg" height="96" align="right" />](https://simpleshare.dev/)
-[![# of sites](https://img.shields.io/badge/dynamic/json.svg?style=flat-square&label=Social+sites&url=https%3A%2F%2Fsimpleshare.dev%2Fstatus.json&query=%24.targetcount)](https://simpleshare.dev/)
+
+[![Website status](https://img.shields.io/nodeping/status/y45av562-vxzv-4a5b-a7bl-3upqfvd5al3t?label=Current+status)](https://nodeping.com/reports/statusevents/check/201109281250J5K3P-QA7CVNOO)
+[![NodePing uptime](https://img.shields.io/nodeping/uptime/y45av562-vxzv-4a5b-a7bl-3upqfvd5al3t?label=30-day+uptime)](https://nodeping.com/reports/uptime/y45av562-vxzv-4a5b-a7bl-3upqfvd5al3t)
+[![# of sites](https://img.shields.io/badge/dynamic/json.svg?color=green&label=Social+sites&url=https%3A%2F%2Fsimpleshare.dev%2Fstatus.json&query=%24.targetcount)](https://simpleshare.dev/)
 [![deploy](https://github.com/fileformat/simpleshare/actions/workflows/gcr-deploy.yaml/badge.svg)](https://github.com/fileformat/simpleshare/actions/workflows/gcr-deploy.yaml)
-[![AGPLv3](https://img.shields.io/github/license/fileformat/simpleshare.svg?style=flat-square)](LICENSE.txt)
+[![AGPLv3](https://img.shields.io/github/license/fileformat/simpleshare.svg?color=green&label=License)](LICENSE.txt)
+
+Share links with no JavaScript and no tracking!
 
 [SimpleShare](https://simpleshare.dev/) is a simple site to redirect to one of the social sharing sites.  It is really just so I don't have to use a third-party service that bloats my pages with a ton of Javascript and tracks my viewers.
 
@@ -14,12 +19,12 @@ There are more details on the [SimpleShare home page](https://simpleshare.dev/) 
 
 Hey, script-less means in works in README files, so go ahead and share a link to [SimpleShare.dev](https://simpleshare.dev/)!!!
 
-Share:
-<a href="https://simpleshare.dev/go?site=facebook&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on facebook" src="https://www.vectorlogo.zone/logos/facebook/facebook-tile.svg" height="24" /></a>
-<a href="https://simpleshare.dev/go?site=hn&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on hacker news" src="https://www.vectorlogo.zone/logos/ycombinator/ycombinator-tile.svg" height="24" /></a>
-<a href="https://simpleshare.dev/go?site=pinboard&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on pinboard" src="https://www.vectorlogo.zone/logos/pinboard/pinboard-tile.svg" height="24" v/></a>
-<a href="https://simpleshare.dev/go?site=reddit&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on reddit" src="https://www.vectorlogo.zone/logos/reddit/reddit-tile.svg" height="24" /></a>
-<a href="https://simpleshare.dev/go?site=twitter&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on twitter" src="https://www.vectorlogo.zone/logos/twitter/twitter-tile.svg" height="24" /></a>
+Share:&nbsp;&nbsp;
+<a href="https://simpleshare.dev/go?site=facebook&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on facebook" src="https://cdn.simpleshare.dev/tile/facebook-tile.svg" height="30" /></a>&nbsp;&nbsp;
+<a href="https://simpleshare.dev/go?site=hn&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on hacker news" src="https://cdn.simpleshare.dev/tile/hn-tile.svg" height="30" /></a>&nbsp;&nbsp;
+<a href="https://simpleshare.dev/go?site=pinboard&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on pinboard" src="https://cdn.simpleshare.dev/tile/pinboard-tile.svg" height="30" v/></a>&nbsp;&nbsp;
+<a href="https://simpleshare.dev/go?site=reddit&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on reddit" src="https://cdn.simpleshare.dev/tile/reddit-tile.svg" height="30" /></a>&nbsp;&nbsp;
+<a href="https://simpleshare.dev/go?site=twitter&amp;url=https%3A%2F%2Fsimpleshare.dev%2F&amp;text=Simple+script-less+share+buttons&amp;ga=UA-328425-45" rel="nofollow"><img alt="share on twitter" src="https://cdn.simpleshare.dev/tile/twitter-tile.svg" height="30" /></a>
 
 ## Using
 
@@ -34,9 +39,9 @@ npm install
 npm run start
 ```
 
-If you want to send an event to Google Analytics for every hit, set the `GA_ID` environment variable to your GA property ID.
-
 Set the `PORT` environment variable to run it on a specific port.
+
+You can also use the [Dockerfile](Dockerfile) to run with docker.
 
 ## Contributing
 
@@ -49,10 +54,11 @@ Contributions are welcome!  Please see the [Contribution Guidelines](CONTRIBUTIN
 ## Credits
 
 [![Cloudflare](https://www.vectorlogo.zone/logos/cloudflare/cloudflare-ar21.svg)](https://www.cloudflare.com/ "Domain and DNS")
+[![Docker](https://www.vectorlogo.zone/logos/docker/docker-ar21.svg)](https://www.docker.com/ "Deployment")
 [![Git](https://www.vectorlogo.zone/logos/git-scm/git-scm-ar21.svg)](https://git-scm.com/ "Version control")
 [![Github](https://www.vectorlogo.zone/logos/github/github-ar21.svg)](https://github.com/ "Code hosting")
-[![GoatCounter](https://www.vectorlogo.zone/logos/goatcounter/goatcounter-ar21.svg)](https://www.goatcounter.com/ "Traffic Measurement")
 [![Google CloudRun](https://www.vectorlogo.zone/logos/google_cloud_run/google_cloud_run-ar21.svg)](https://cloud.google.com/run/ "Hosting")
+[![Jekyll](https://www.vectorlogo.zone/logos/jekyllrb/jekyllrb-ar21.svg)](https://www.jekyllrb.com/ "Static website builder")
 [![Koa](https://www.vectorlogo.zone/logos/koajs/koajs-ar21.svg)](https://koajs.com/ "Web framework")
 [![Node.js](https://www.vectorlogo.zone/logos/nodejs/nodejs-ar21.svg)](https://nodejs.org/ "Application Server")
 [![Nodemon](https://www.vectorlogo.zone/logos/nodemonio/nodemonio-ar21.svg)](https://nodemon.io/ "Development tool")

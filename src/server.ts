@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Koa from 'koa';
 import KoaPinoLogger from 'koa-pino-logger';
 import KoaRouter from 'koa-router';
@@ -183,42 +182,8 @@ function getSite(ctx: KoaContext):sites.SiteData|null {
     return site;
 }
 
-function guid(): string {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-        const r = Math.random() * 16 | 0;
-        const v = (c == 'x') ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-}
-
-function trackEvent(ctx: KoaContext, ga_id:string | undefined, event:trackingEvent) {
-    if (!ga_id) {
-        return;
-    }
-
-    const formData:{[key:string]:string} = {};
-    formData.v = '1';
-    formData.tid = ga_id;
-    formData.cid = guid();    // anonymous client id
-    formData.t = 'event';
-    if (event.eventCategory) {
-        formData.ec = event.eventCategory;
-    }
-    if (event.eventAction) {
-        formData.ea = event.eventAction;
-    }
-    if (event.eventLabel) {
-        formData.el = event.eventLabel.substr(0, 500);
-    }
-    if (event.eventValue) {
-        formData.ev = event.eventValue;
-    }
-    formData.ua = ctx.request.get('user-agent') || '(not set)';
-    formData.uip = ctx.ip || '0.0.0.0';
-
-    axios.post("https://www.google-analytics.com/collect", {
-        form: formData
-    });
+function trackEvent(ctx: KoaContext, event:trackingEvent) {
+    // if you want to track clicks server-side outside of normal page logs, put the code here
 }
 
 type trackingEvent = {
@@ -253,11 +218,7 @@ rootRouter.get('/go', function (ctx) {
         eventLabel: util.getFirst(ctx.request.query["url"])
     };
 
-    //webmaster's tracking
-    trackEvent(ctx, util.getFirst(ctx.request.query['ga']), event);
-
-    //simpleshare tracking
-    trackEvent(ctx, process.env.GA_ID, event);
+    trackEvent(ctx, event);
 });
 
 app.use(rootRouter.routes());
@@ -273,7 +234,7 @@ async function main() {
     app.use(comparison.comparisonRouter.routes());
 
     const listener = app.listen(process.env.PORT || "4000", function () {
-        logger.info( { address: listener.address(), ga_id: process.env.GA_ID || '(not set)' }, 'Running');
+        logger.info( { address: listener.address() }, 'Running');
     });
 }
 
