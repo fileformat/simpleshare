@@ -43,6 +43,7 @@ app.use( async (ctx, next) => {
         await next();
         const status = ctx.status || 404;
         if (status === 404) {
+            ctx.status = 404;
             ctx.log.warn( { url: ctx.request.url }, 'File not found');
             await ctx.render('404.hbs', { title: 'File not found (404)', url: ctx.request.url });
         }
