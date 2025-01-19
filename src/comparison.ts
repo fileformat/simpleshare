@@ -37,8 +37,8 @@ comparisonRouter.get('/comparison/:slug/index.html', async (ctx) => {
 
     await ctx.render('comparison/_index.hbs', {
         data: data[0],
-        nocompare: slug == 'simpleshare_io',
-        title: slug == 'simpleshare_io' ? data[0].name : `SimpleShare vs ${data[0].name}`,
+        nocompare: slug == 'simpleshare_dev',
+        title: slug == 'simpleshare_dev' ? data[0].name : `SimpleShare vs ${data[0].name}`,
     });
 });
 

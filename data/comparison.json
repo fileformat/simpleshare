@@ -12,13 +12,13 @@
     },
     {
         "grade": "A",
-        "name": "SimpleShare",
+        "name": "SimpleShare.dev (me!)",
         "scriptless": true,
         "sites": 16,
         "slug": "simpleshare_dev",
         "source": "https://github.com/fileformat/SimpleShare",
         "tracking": true,
-        "type": "Link builder with optional redirector",
+        "type": "Redirector",
         "website": "https://simpleshare.dev/"
     },
     {
@@ -36,7 +36,7 @@
         "grade": "B",
         "name": "Simple Sharing Buttons Generator",
         "scriptless": true,
-        "sites": 9,
+        "sites": 10,
         "slug": "simplesharingbuttons",
         "source": "https://github.com/fourtonfish/SimpleSharingButtons",
         "tracking": false,
