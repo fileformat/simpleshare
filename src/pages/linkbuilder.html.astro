@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { get, getAll } from '../sites';
+
+const params = Astro.url.searchParams;
+const url = params.get('url') || undefined;
+const text = params.get('text') || undefined;
+const checks = params.getAll('site');
+type Share = { id: string; name: string; logo_url: string; url: string };
+let results: string | undefined;
+
+if (url && checks.length > 0) {
+  const shares: Share[] = checks.flatMap((id: string) => {
+    const site = get(id);
+    return site ? [{ id: site.id, name: site.name, logo_url: site.logo_url, url: site.templateFn({ URL: url, TEXT: text || url }) }] : [];
+  });
+  results = shares.map((share) => `<a href="${share.url}" rel="nofollow"><img alt="Share on ${share.name}" src="${share.logo_url}" height="30" /></a>`).join(' ');
+}
+---
+<Layout title="Link Builder">
+  {results ? <>
+    <h3>Preview</h3>
+    <div set:html={results} />
+    <h3>HTML</h3>
+    <button type="button" class="clipper" data-clipboard-target="#result">Copy to Clipboard</button>
+    <pre id="result">{results}</pre>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+    <script is:inline>new ClipboardJS('.clipper');</script>
+    <h3>Build Another</h3>
+  </> : <div role="alert">Build links for social sharing without privacy violations or page bloat.</div>}
+  <form method="get" action="/linkbuilder.html">
+    <label>URL (required)<input type="text" name="url" value={url} /></label>
+    <label>Text (optional)<input type="text" name="text" value={text} /></label>
+    <fieldset><legend>Social sites</legend>
+      {getAll().map((site) => <label>
+        <input type="checkbox" name="site" value={site.id} checked={checks.includes(site.id)} />
+        <img src={site.logo_url} alt={site.name} style="height:24pt;padding-right:10px;padding-left:15px;" /> {site.name}
+      </label>)}
+    </fieldset>
+    <input type="submit" value="Build it!" />
+  </form>
+</Layout>

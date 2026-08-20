@@ -32,7 +32,7 @@ Follow the instructions in the [Home Page](https://simpleshare.dev/).
 
 ## Running your own copy
 
-It is a simple node.js app:
+It is a simple Astro.js app running in Node.js:
 
 ```bash
 npm install
@@ -59,12 +59,11 @@ Contributions are welcome!  Please see the [Contribution Guidelines](CONTRIBUTIN
 [![Github](https://www.vectorlogo.zone/logos/github/github-ar21.svg)](https://github.com/ "Code hosting")
 [![Google CloudRun](https://www.vectorlogo.zone/logos/google_cloud_run/google_cloud_run-ar21.svg)](https://cloud.google.com/run/ "Hosting")
 [![Jekyll](https://www.vectorlogo.zone/logos/jekyllrb/jekyllrb-ar21.svg)](https://www.jekyllrb.com/ "Static website builder")
-[![Koa](https://www.vectorlogo.zone/logos/koajs/koajs-ar21.svg)](https://koajs.com/ "Web framework")
+[![Astro](https://astro.build/assets/press/astro-icon-light-gradient.svg)](https://astro.build/ "Web framework")
 [![Node.js](https://www.vectorlogo.zone/logos/nodejs/nodejs-ar21.svg)](https://nodejs.org/ "Application Server")
 [![Nodemon](https://www.vectorlogo.zone/logos/nodemonio/nodemonio-ar21.svg)](https://nodemon.io/ "Development tool")
 [![NodePing](https://www.vectorlogo.zone/logos/nodeping/nodeping-ar21.svg)](https://nodeping.com?rid=201109281250J5K3P "Uptime monitoring")
 [![npm](https://www.vectorlogo.zone/logos/npmjs/npmjs-ar21.svg)](https://www.npmjs.com/ "JS Package Management")[![Pico CSS](https://www.vectorlogo.zone/logos/picocss/picocss-ar21.svg)](https://picocss.com/ "CSS")
-[![pino](https://www.vectorlogo.zone/logos/getpinoio/getpinoio-ar21.svg)](https://www.getpino.io/ "Logging")
 [![SuperTinyIcons](https://www.vectorlogo.zone/logos/supertinyicons/supertinyicons-ar21.svg)](https://supertinyicons.org/ "Images")
 [![TypeScript](https://www.vectorlogo.zone/logos/typescriptlang/typescriptlang-ar21.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript "Programming Language")
 [![VectorLogoZone](https://www.vectorlogo.zone/logos/vectorlogozone/vectorlogozone-ar21.svg)](https://www.vectorlogo.zone/logos/index.html#tile "Images")

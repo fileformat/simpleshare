@@ -6,14 +6,10 @@
     "tmp"
   ],
   "verbose": true,
-  "watch": [
-    "data/",
-    "partials/",
-    "src/"
-  ],
+  "watch": ["src/", "data/", "public/"],
   "env": {
     "NODE_ENV": "development"
   },
-  "exec": "tsc && npm run start | npx pino-pretty",
-  "ext": "csv,hbs,json,ts,yaml"
+  "exec": "npm run dev",
+  "ext": "astro,css,json,ts"
 }

@@ -1,0 +1,46 @@
+---
+interface Props {
+  title: string;
+  hideTitle?: boolean;
+}
+
+const { title, hideTitle = false } = Astro.props;
+const documentTitle = hideTitle ? title : `${title} - SimpleShare`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{documentTitle}</title>
+    <meta name="google-site-verification" content="_h1MxgiRHa93duDgu7VbDBgSXlXqPshOhp6uS82fQdo" />
+    <meta name="msvalidate.01" content="E90DBA4A9D3D37F1056E64E5604A7A0D" />
+    <meta name="yandex-verification" content="19286758bf144d3d" />
+    <meta name="referrer" content="unsafe-url" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+      h1 { font-weight: bold; margin-top: 12px; }
+      .q { font-weight: bold; margin-top: 1.25rem; margin-bottom: 0.25rem; }
+      .a { margin-bottom: 0.25rem; }
+      .iconcell { text-align: center; }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <h1>
+        <a href="/"><img src="/favicon.svg" alt="" style="width:24pt;height:24pt;margin-top:-4pt;" /></a>
+        SimpleShare
+      </h1>
+      {!hideTitle && <><h2>{title}</h2><hr /></>}
+      <slot />
+      <footer>
+        <small>
+          Copyright &copy; 2022-2026 by Andrew Marcuse. All Rights Reserved.<br />
+          <a href="https://github.com/fileformat/simpleshare/blob/master/LICENSE.txt">License</a>
+          {' | '}<a href="/contact.html">Contact</a>
+        </small>
+      </footer>
+    </main>
+  </body>
+</html>

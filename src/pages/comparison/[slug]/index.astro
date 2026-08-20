@@ -1,0 +1,16 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import comparisonData from '../../../../data/comparison.json';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return comparisonData.filter((site) => site.slug).map((site) => ({ params: { slug: site.slug }, props: { site } }));
+}
+
+const { site } = Astro.props;
+const title = site.slug === 'simpleshare_dev' ? site.name : `SimpleShare vs ${site.name}`;
+---
+<Layout title={title}>
+  <p><a href="/comparison/index.html">More social linking site comparisons</a></p>
+</Layout>

@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getAll } from '../sites';
+
+const shareUrl = 'https://simpleshare.dev/';
+const shareText = 'Simple script-less share buttons';
+const shareSummary = 'The most awesome-est way to share!!!';
+const sites = getAll();
+const encoded = encodeURIComponent;
+---
+<Layout title="SimpleShare - simple script-less social sharing" hideTitle>
+  <p class="subtitle">
+    Share links with no JavaScript and no tracking!
+    <a href="https://nodeping.com/reports/statusevents/check/201109281250J5K3P-QA7CVNOO"><img alt="Current status up/down badge" src="https://img.shields.io/nodeping/status/y45av562-vxzv-4a5b-a7bl-3upqfvd5al3t?label=Current+status" /></a>
+    <a href="https://nodeping.com/reports/uptime/y45av562-vxzv-4a5b-a7bl-3upqfvd5al3t"><img alt="30-day uptime badge" src="https://img.shields.io/nodeping/uptime/y45av562-vxzv-4a5b-a7bl-3upqfvd5al3t?label=30-day+uptime" /></a>
+  </p>
+  <p class="q">What is this?</p>
+  <p class="a">A helper site to build buttons for sharing links on the various social sites, but without loading JavaScript or invading the privacy of your visitors. You can see the source code on <a href="https://www.github.com/fileformat/simpleshare">Github</a>.</p>
+  <p class="q">How do I use it?</p>
+  <p class="a">You can use the <a class="button" href="/linkbuilder.html">link builder</a> or DIY: Embed a link to <code>https://simpleshare.dev/go</code> with the correct parameters:</p>
+  <table class="striped"><thead><tr><th>Parameter</th><th>Required?</th><th>Description</th></tr></thead><tbody>
+    <tr><td><code>site</code></td><td>Required</td><td>ID of the site where you want to share.</td></tr>
+    <tr><td><code>url</code></td><td>Required</td><td>The complete URL (including http(s) and host name) of the page to share.</td></tr>
+    <tr><td><code>text</code></td><td>Optional</td><td>Short text description, usually the page title.</td></tr>
+    <tr><td><code>summary</code></td><td>Optional</td><td>Longer text description.</td></tr>
+    <tr><td><code>image</code></td><td>Optional</td><td>Image to include.</td></tr>
+  </tbody></table>
+  <p class="q">Which social sites are available?</p>
+  <table class="striped"><thead><tr><th>Icon</th><th>Name</th><th>ID</th><th>Test</th></tr></thead><tbody>
+    {sites.map((site) => <tr>
+      <td class="iconcell"><a href={site.logo_link}><img src={site.logo_url} alt={site.name} style="height:24pt;padding-right:10px;" /></a></td>
+      <td>{site.name}</td><td>{site.id}</td>
+      <td><a href={`/go?site=${site.id}&url=${encoded(shareUrl)}&text=${encoded(shareText)}&summary=${encoded(shareSummary)}`} rel="nofollow">Share on {site.name}</a></td>
+    </tr>)}
+  </tbody></table>
+  <p class="q">Can I use these images?</p>
+  <p class="a">Yes, you can hotlink the images from the <a href="https://cdn.simpleshare.dev/">SimpleShare CDN</a>. They are vector (.SVG) images that look good at any size and resolution in both light and dark themes.</p>
+  <p class="q">How can I tell when someone shares?</p>
+  <p class="a">Nope. If you need to track, you can run your own copy and look at the server-side logs.</p>
+  <p class="q">Aren't there a million sites that do exactly this?</p>
+  <p class="a">Well, yes and no. When I went looking for them, I didn't find any that met my <a href="/comparison/index.html">criteria for social links</a>.</p>
+</Layout>

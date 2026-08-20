@@ -1,0 +1,22 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import comparisonData from '../../../data/comparison.json';
+---
+<Layout title="Social Linking Site Comparison">
+  <h2>Criteria</h2>
+  <ul>
+    <li>Scriptless - Does it work with JavaScript disabled?</li>
+    <li>README compatible - Does the generated snippet work in a README.md?</li>
+    <li>Open source - Does it have an open source license?</li>
+    <li>Tracking - Is there a way to see how many times it is clicked?</li>
+    <li>Track-less - Is there a way to disable tracking?</li>
+    <li>Only my tracking - Is my tracking the only tracking taking place?</li>
+    <li>Hosted version - Is there a free hosted version?</li>
+    <li>Self-hosted version - Is there a version that I can host myself?</li>
+    <li>Link maintenance - If a social site changes direct links, do I need to update all my pages?</li>
+  </ul>
+  <table class="striped"><thead><tr><th>Sharing site</th><th>Type</th><th># sites</th><th>Grade</th></tr></thead><tbody>
+    {comparisonData.filter((site) => site.slug).map((site) => <tr><td><a href={site.website}>{site.name}</a></td><td>{site.type}</td><td>{site.sites}</td><td><a href={`/comparison/${site.slug}/index.html`}>{site.grade}</a></td></tr>)}
+  </tbody></table>
+  <h3>To Do</h3><ul><li><a href="https://alternativeto.net/software/sharethis/">20</a> on Alternativeto.net</li></ul>
+</Layout>
