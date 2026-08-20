@@ -11,11 +11,12 @@
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "outDir": "dist",
+    "rootDir": "src",
     "resolveJsonModule": true,
     "sourceMap": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
-    "target": "ES2017"
+    "target": "esnext"
   },
   "include": [
     "src/**/*"

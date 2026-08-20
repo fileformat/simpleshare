@@ -45,7 +45,8 @@ app.use( async (ctx, next) => {
         }
     } catch (err) {
         ctx.log.error( { err, url: ctx.request.url }, 'Server Error');
-        await ctx.render('500.hbs', { title: 'Server Error', message: err.message });
+        const message = err instanceof Error ? err.message : String(err);
+        await ctx.render('500.hbs', { title: 'Server Error', message });
     }
 });
 

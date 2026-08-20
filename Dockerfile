@@ -1,4 +1,4 @@
-FROM node:20-bookworm-slim as base
+FROM node:24-bookworm-slim AS base
 RUN groupadd -r appuser && \
 	useradd --create-home --gid appuser --home-dir /app --no-log-init --system appuser
 
@@ -21,6 +21,6 @@ COPY --chown=appuser:appuser . .
 COPY --chown=appuser:appuser --from=build /app/dist /app/dist
 RUN npm install --production
 EXPOSE 4000
-ENV PORT 4000
+ENV PORT=4000
 CMD ["npm", "run", "start"]
 
