@@ -1,6 +1,6 @@
 {
   "name": "simpleshare",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Support 'share' links for static sites without invasive tracking",
   "license-actual-since-npm-does-not-follow-the-actual-spdx-spec": "AGPL-3.0-or-later",
   "license": "AGPL-3.0",
@@ -9,7 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "start": "node ./dist/server/entry.mjs"
+    "start": "PORT=${PORT:-4000} node ./dist/server/entry.mjs"
   },
   "dependencies": {
     "@astrojs/node": "latest",
