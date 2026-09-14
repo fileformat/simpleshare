@@ -1,7 +1,6 @@
 # To Do
 
 - [ ] data in yaml instead of JSON
-- [ ] remove Google+
 - [ ] note about `ping` attribute for HTML links (and support in LinkBuilder)
 - [ ] better looking builder page
 - [ ] builder page for support for markdown

@@ -6,12 +6,6 @@
         "template": "https://facebook.com/sharer/sharer.php?u={{{URL}}}"
     },
     {
-        "id": "googleplus",
-        "name": "Google+",
-        "vectorlogozone": "google_plus",
-        "template": "https://plus.google.com/share?url={{{URL}}}"
-    },
-    {
         "id": "hn",
         "name": "Hacker News",
         "vectorlogozone": "ycombinator",
